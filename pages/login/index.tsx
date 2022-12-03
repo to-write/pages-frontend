@@ -19,4 +19,4 @@ const Login = () => {
 export default Login
 
 // http://localhost:3000/kakao?code=1mxdTdVB3UrDy78vZplb5EzKyTCUWyxAXbD4Id6iUbzoHJvNcvb2nt6q_A1GGAHa3AztOgopdSkAAAGEwvdbvA
-// 토큰 저장
+// 토큰 저장1
