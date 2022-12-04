@@ -21,6 +21,9 @@
     }
   }
 
+  // FIXME: 임시
+  border: 1px solid #000;
+
   :global {
     #{$self}__main {
       flex-grow: 1;
