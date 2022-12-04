@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind'
 import styles from './index.module.scss'
 import { ReactNode } from 'react'
+import { Footer, Header } from '../../components'
 
 const cx = classNames.bind(styles)
 
@@ -10,9 +11,10 @@ interface DefaultLayoutProps {
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
-    <div>
-      <header>헤더 영역</header>
-      <main>{children}</main>
+    <div className={cx('layout-container')}>
+      <Header />
+      <main className='layout-container__main'>{children}</main>
+      <Footer />
     </div>
   )
 }
