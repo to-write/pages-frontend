@@ -1,0 +1,34 @@
+@use 'styles/mixins/responsive';
+
+.layout-container {
+  $self: #{&};
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @include responsive.between(769px, 1023px) {
+    & {
+      width: 768px;
+      height: 100%;
+    }
+  }
+
+  @include responsive.after(1024px) {
+    & {
+      width: 768px;
+      height: 100%;
+    }
+  }
+
+  :global {
+    #{$self}__main {
+      flex-grow: 1;
+      overflow: scroll;
+      overflow-x: hidden;
+      //   FIXME:임시
+      background-color: navy;
+      color: #fff;
+    }
+  }
+}
