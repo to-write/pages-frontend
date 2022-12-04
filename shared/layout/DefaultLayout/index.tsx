@@ -4,11 +4,11 @@ import { ReactNode } from 'react'
 
 const cx = classNames.bind(styles)
 
-interface LayoutProps {
+interface DefaultLayoutProps {
   children: ReactNode
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
     <div>
       <header>헤더 영역</header>
@@ -17,4 +17,4 @@ const Layout = ({ children }: LayoutProps) => {
   )
 }
 
-export default Layout
+export default DefaultLayout
