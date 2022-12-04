@@ -1,4 +1,4 @@
 const Home = () => {
-  return <div>초기 세팅</div>
+  return <div>랜딩 페이지</div>
 }
 export default Home
