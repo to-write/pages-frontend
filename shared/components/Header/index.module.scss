@@ -1,6 +1,18 @@
+@use 'styles/mixins/responsive';
+
 .header-container {
   $self: #{&};
 
   //TODO: 조율 필요
-  height: 30px;
+  height: 50px;
+  padding: 10px 15px;
+  border-bottom: 1px solid gray;
+
+  @include responsive.after(1024px) {
+    height: 80px;
+
+    & {
+      padding: 20px 60px;
+    }
+  }
 }
