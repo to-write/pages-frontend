@@ -5,6 +5,7 @@ import { FunctionComponent, useState } from 'react'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { DefaultLayout } from '../shared/layout'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
@@ -49,7 +50,18 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
         </QueryClientProvider>
       </div>
     </>
-  )
-}
-
-export default App
+// const App = ({ Component, pageProps: { ...pageProps } }: AppProps) => {
+  //   const kakaoInit = () => {
+    //     window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY)
+    //   }
+    
+    //   return (
+//     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
+//       <Component {...pageProps} />
+//       <Script src='https://developers.kakao.com/sdk/js/kakao.js' onLoad={kakaoInit} />
+//     </GoogleOAuthProvider>
+//   )
+// }
+// <SessionProvider /> also takes care of keeping the session updated and synced between browser tabs and windows.
+// By wrapping our component in a Session``Provider, we enable session state to be shared between pages.
+// export default App
