@@ -1,0 +1,41 @@
+// @use 'src/styles/mixins/responsive';
+// @use 'src/styles/constants/colors';
+// FIXME 절대경로로 수정
+@import '../../styles/constants/colors';
+@import '../../styles/mixins/responsive';
+
+.login-container {
+  $self: #{&};
+  border: 3px solid green; // FIXME 임시 border
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 50px;
+
+  @include between(769px, 1023px) {
+    & {
+      width: 450px;
+    }
+  }
+
+  @include after(1024px) {
+    & {
+      width: 450px;
+    }
+  }
+
+  // TODO global에 사용 맞는 지 확인
+
+  :global {
+    #{$self}__logo {
+      border: 3px solid orange; // FIXME 임시 border
+      width: 100%;
+      height: 260px;
+    }
+    #{$self}__button-container {
+      border: 3px solid orange; // FIXME 임시 border
+      width: 100%;
+      height: 260px;
+    }
+  }
+}

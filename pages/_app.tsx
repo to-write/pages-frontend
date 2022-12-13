@@ -17,6 +17,13 @@ export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   session?: any
 }
 
+// declare global {
+//   // Kakao 함수를 전역에서 사용할 수 있도록 선언
+//   interface Window {
+//     Kakao: any
+//   }
+// }
+
 const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
   const Layout = Component.Layout ?? DefaultLayout
   const LayoutProps = Component.LayoutProps ?? {}
@@ -32,6 +39,12 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
       })
   )
 
+  // function kakaoInit() {
+  //   // 페이지가 로드되면 실행
+  //   window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY)
+  //   console.log(window.Kakao.isInitialized())
+  // }
+  // TODO GoogleOAuthProvider 위치 맞는 지 확인
   return (
     <>
       <Head>
@@ -41,21 +54,25 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
       <div className='app'>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
-            <Layout {...LayoutProps}>
-              <Component {...pageProps} />
-            </Layout>
+            <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
+              <Layout {...LayoutProps}>
+                <Component {...pageProps} />
+              </Layout>
+            </GoogleOAuthProvider>
             <div id='root-modal' />
           </Hydrate>
           {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
         </QueryClientProvider>
       </div>
     </>
+  )
+}
 // const App = ({ Component, pageProps: { ...pageProps } }: AppProps) => {
-  //   const kakaoInit = () => {
-    //     window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY)
-    //   }
-    
-    //   return (
+//   const kakaoInit = () => {
+//     window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY)
+//   }
+
+//   return (
 //     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
 //       <Component {...pageProps} />
 //       <Script src='https://developers.kakao.com/sdk/js/kakao.js' onLoad={kakaoInit} />
@@ -64,4 +81,4 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
 // }
 // <SessionProvider /> also takes care of keeping the session updated and synced between browser tabs and windows.
 // By wrapping our component in a Session``Provider, we enable session state to be shared between pages.
-// export default App
+export default App
