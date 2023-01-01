@@ -45,7 +45,7 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
             </Layout>
             <div id='root-modal' />
           </Hydrate>
-          {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
+          <ReactQueryDevtools initialIsOpen={process.env.NODE_ENV !== 'production'} />
         </QueryClientProvider>
       </div>
     </>
