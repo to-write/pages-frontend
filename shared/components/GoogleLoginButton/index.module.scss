@@ -1,0 +1,15 @@
+.google-button {
+  $self: #{&};
+  color: #ffffff;
+  display: flex;
+
+  // TODO: 반응형 적용
+
+  :global {
+    #{$self}__login {
+    }
+    #{$self}__join {
+      width: 100%;
+    }
+  }
+}

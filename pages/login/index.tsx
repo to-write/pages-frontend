@@ -2,9 +2,9 @@ const Login = () => {
   // const { data: session } = useSession();
   // 등록한 redirectUri를 매개변수로 넣어준다.
   function kakaoLogin() {
-    window.Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:3000/kakao',
-    })
+    // window.Kakao.Auth.authorize({
+    //   redirectUri: 'http://localhost:3000/kakao',
+    // })
   }
 
   return (

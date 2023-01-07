@@ -39,7 +39,7 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
         <title>{LayoutProps?.metaTitle || '프로젝트 이름'}</title>
       </Head>
       <div className='app'>
-        <GoogleOAuthProvider clientId='dd'>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <Layout {...LayoutProps}>
