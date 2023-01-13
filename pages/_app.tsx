@@ -6,6 +6,7 @@ import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { DefaultLayout } from '../shared/layout'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import Script from 'next/script'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
@@ -17,12 +18,11 @@ export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   session?: any
 }
 // TODO Kakao JS SDK Login
-// declare global {
-//   Kakao 함수를 전역에서 사용할 수 있도록 선언
-//   interface Window {
-//     Kakao: any
-//   }
-// }
+declare global {
+  interface Window {
+    Kakao: any
+  }
+}
 
 const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
   const Layout = Component.Layout ?? DefaultLayout
@@ -38,11 +38,11 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
         },
       })
   )
-  // TODO Kakao JS SDK Login
-  // function kakaoInit() {
-  //   window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY)
-  //   console.log(window.Kakao.isInitialized())
-  // }
+  const InitializeKakaoSDK = () => {
+    // 페이지 로드 시 ? 실행
+    window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY)
+    // console.log(window.Kakao.isInitialized())
+  }
 
   return (
     <>
@@ -56,6 +56,7 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
             <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
               <Layout {...LayoutProps}>
                 <Component {...pageProps} />
+                <Script src='https://developers.kakao.com/sdk/js/kakao.js' onLoad={InitializeKakaoSDK} />
               </Layout>
             </GoogleOAuthProvider>
             <div id='root-modal' />

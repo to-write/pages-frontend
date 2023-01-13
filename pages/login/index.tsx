@@ -3,9 +3,17 @@ import styles from './index.module.scss'
 import GoogleButton from '../../shared/components/GoogleLoginButton'
 import KakaoButton from '../../shared/components/KakaoLoginButton'
 
+import { useRouter } from 'next/router'
+
 const cx = classNames.bind(styles)
 
 const LoginPage = () => {
+  const router = useRouter()
+
+  const { access, refresh } = router.query
+  // 1. access, refresh를 쿠키에 저장
+  // 저장하는 코드 ...
+
   return (
     <div className={cx('login-container')}>
       <div className='login-container__logo'>
