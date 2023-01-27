@@ -1,12 +1,12 @@
 import '../styles/index.scss'
 import Head from 'next/head'
+import Script from 'next/script'
 import type { AppProps } from 'next/app'
 import { FunctionComponent, useState } from 'react'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { DefaultLayout } from '../shared/layout'
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import Script from 'next/script'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
@@ -17,7 +17,7 @@ export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   // FIXME: 추후 Session store 정해지면 수정
   session?: any
 }
-// TODO Kakao JS SDK Login
+
 declare global {
   interface Window {
     Kakao: any
@@ -38,10 +38,10 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
         },
       })
   )
-  const InitializeKakaoSDK = () => {
-    // 페이지 로드 시 ? 실행
+
+  const initializeKakao = () => {
     window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY)
-    // console.log(window.Kakao.isInitialized())
+    console.log(window.Kakao.isInitialized())
   }
 
   return (
@@ -50,13 +50,18 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
         <meta name='referrer' content='unsafe-url' />
         <title>{LayoutProps?.metaTitle || '프로젝트 이름'}</title>
       </Head>
+      <Script
+        src='https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js'
+        integrity='sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx'
+        crossOrigin='anonymous'
+        onLoad={initializeKakao}
+      />
       <div className='app'>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
             <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
               <Layout {...LayoutProps}>
                 <Component {...pageProps} />
-                <Script src='https://developers.kakao.com/sdk/js/kakao.js' onLoad={InitializeKakaoSDK} />
               </Layout>
             </GoogleOAuthProvider>
             <div id='root-modal' />
