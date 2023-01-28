@@ -51,4 +51,16 @@ function createAxios(requestConfig: AxiosRequestConfig): AxiosInstance {
   return axiosInstance
 }
 
-export const axiosAPI = createAxios({ baseURL: 'NEXT_PUBLIC_API_URL' })
+function getEnvPath(key: string): string {
+  let envPath = ''
+  if (typeof window !== 'undefined') {
+    envPath = key
+  } else {
+    envPath = key.replace('_PUBLIC', '')
+  }
+  console.log(process.env[envPath])
+
+  return process.env[envPath] as string
+}
+
+export const axiosAPI = createAxios({ baseURL: getEnvPath('NEXT_PUBLIC_API_URL') })
