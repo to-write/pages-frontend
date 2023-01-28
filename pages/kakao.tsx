@@ -18,31 +18,12 @@ const Kakao: NextPage = () => {
         }),
       }).then((res: Response) => res.json())
 
-      if (response.ok) {
-        // 성공하면 홈으로 리다이렉트
-        router.push('/')
-      } else {
-        // 실패하면 에러 페이지로 리다이렉트
-        router.push('/notifications/authentication-failed')
-      }
-      // try {
-      //   const response = await fetch('', {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify({
-      //       authCode: code,
-      //     }),
-      //   })
-      //   const data = await response.json()
-      //   console.log('code, data : ', code, data)
+      // TODO 라우팅 설정
+      // if (response.ok) {
       //   router.push('/')
-      //   return data
-      // } catch (error) {
-      //   console.log(error)
+      // } else {
+      //   router.push('/notifications/authentication-failed')
       // }
-      // return code
     },
 
     [router]
