@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind'
+import { GoogleLoginButton } from '../../shared/components'
 import styles from './index.module.scss'
 import KakaoButton from '../../shared/components/KakaoLoginButton'
 
