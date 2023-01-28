@@ -5,6 +5,7 @@ import { FunctionComponent, useState } from 'react'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { DefaultLayout } from '../shared/layout'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
@@ -38,15 +39,17 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
         <title>{LayoutProps?.metaTitle || '프로젝트 이름'}</title>
       </Head>
       <div className='app'>
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <Layout {...LayoutProps}>
-              <Component {...pageProps} />
-            </Layout>
-            <div id='root-modal' />
-          </Hydrate>
-          <ReactQueryDevtools initialIsOpen={process.env.NODE_ENV !== 'production'} />
-        </QueryClientProvider>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
+              <Layout {...LayoutProps}>
+                <Component {...pageProps} />
+              </Layout>
+              <div id='root-modal' />
+            </Hydrate>
+            {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
+          </QueryClientProvider>
+        </GoogleOAuthProvider>
       </div>
     </>
   )

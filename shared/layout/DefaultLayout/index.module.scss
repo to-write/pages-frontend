@@ -27,12 +27,16 @@
     }
 
     #{$self}__main {
-      flex-grow: 1;
       overflow: scroll;
       overflow-x: hidden;
       //   FIXME:임시
       background-color: navy;
       color: #fff;
+
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
 
       @include responsive.after(1024px) {
         & {

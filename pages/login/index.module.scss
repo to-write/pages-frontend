@@ -1,0 +1,8 @@
+.login-page {
+  $self: #{&};
+
+  width: 100%;
+  height: 100%;
+  :global {
+  }
+}
