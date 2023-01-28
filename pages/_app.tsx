@@ -57,17 +57,17 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
         onLoad={initializeKakao}
       />
       <div className='app'>
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
               <Layout {...LayoutProps}>
                 <Component {...pageProps} />
               </Layout>
-            </GoogleOAuthProvider>
-            <div id='root-modal' />
-          </Hydrate>
-          <ReactQueryDevtools initialIsOpen={process.env.NODE_ENV !== 'production'} />
-        </QueryClientProvider>
+              <div id='root-modal' />
+            </Hydrate>
+            {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
+          </QueryClientProvider>
+        </GoogleOAuthProvider>
       </div>
     </>
   )

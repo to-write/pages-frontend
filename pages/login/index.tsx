@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind'
 import styles from './index.module.scss'
-import GoogleButton from '../../shared/components/GoogleLoginButton'
 import KakaoButton from '../../shared/components/KakaoLoginButton'
 
 const cx = classNames.bind(styles)
@@ -13,7 +12,6 @@ const LoginPage = () => {
       </div>
       <div className='login-container__button-container'>
         <KakaoButton />
-        <GoogleButton />
       </div>
     </div>
   )
