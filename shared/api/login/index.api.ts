@@ -1,8 +1,7 @@
 import { axiosAPI } from '../../api-client'
+import { LoginRequest } from '../../types/api'
 
-export interface SnsLoginParams {
-  accessToken: string
-  authServer: 'kakao' | 'google'
+export const snsLogin = async (params: LoginRequest) => {
+  const { data } = await axiosAPI.post('/api/login', params)
+  return data
 }
-
-export const snsLogin = (params: SnsLoginParams) => axiosAPI.post('/api/login', params)

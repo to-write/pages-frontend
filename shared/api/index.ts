@@ -1,2 +1,2 @@
-export * from './login/index.api'
+export * from './login'
 export * from './queryKey'
