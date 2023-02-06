@@ -6,7 +6,6 @@ import { FunctionComponent, useState } from 'react'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { DefaultLayout } from '../shared/layout'
-import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
@@ -57,17 +56,15 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
         onLoad={initializeKakao}
       />
       <div className='app'>
-        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
-          <QueryClientProvider client={queryClient}>
-            <Hydrate state={pageProps.dehydratedState}>
-              <Layout {...LayoutProps}>
-                <Component {...pageProps} />
-              </Layout>
-              <div id='root-modal' />
-            </Hydrate>
-            {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
-          </QueryClientProvider>
-        </GoogleOAuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <Layout {...LayoutProps}>
+              <Component {...pageProps} />
+            </Layout>
+            <div id='root-modal' />
+          </Hydrate>
+          {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
+        </QueryClientProvider>
       </div>
     </>
   )

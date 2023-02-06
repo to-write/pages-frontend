@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { axiosAPI } from '../../api-client'
 
 export interface SnsLoginParams {

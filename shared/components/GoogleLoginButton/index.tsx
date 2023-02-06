@@ -1,41 +1,62 @@
-import { CodeResponse, useGoogleLogin } from '@react-oauth/google'
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google'
 import { SocialLoginProps } from '../../types/SocialLogin'
 
 import styles from './index.module.scss'
 import classNames from 'classnames/bind'
 import { snsLogin, SnsLoginParams } from '../../api'
+import { deleteCookie, hasCookie, setCookie } from 'cookies-next'
+import { useRouter } from 'next/router'
 
 const cx = classNames.bind(styles)
 
-const GoogleLoginButton = ({ type }: SocialLoginProps) => {
-  const handleSuccess = async (codeResponse: Omit<CodeResponse, 'error' | 'error_description' | 'error_uri'>) => {
-    // FIXME: 여기서 백엔드한테 쏴줌
-    const { code: accessToken } = codeResponse
+const LOGIN_STATUS_STORAGE = 'LoginStatus'
 
-    const loginParams: SnsLoginParams = {
-      accessToken,
-      authServer: 'google',
-    }
-    console.log(codeResponse)
-
-    await snsLogin(loginParams).then((res) => console.log('res', res.data))
-  }
-
-  const handleFail = () => {
-    alert('로그인 중 오류가 발생했습니다. 잠시후 다시 시도해주세요.')
-  }
+const CustomButton = ({ type }: SocialLoginProps) => {
+  const { replace: routerReplace } = useRouter()
 
   const handleLogin = useGoogleLogin({
-    onSuccess: handleSuccess,
-    onError: handleFail,
-    flow: 'auth-code',
+    async onSuccess(res) {
+      const accessToken = res.access_token || ''
+      try {
+        const loginParams: SnsLoginParams = {
+          accessToken,
+          authServer: 'google',
+        }
+
+        const { data } = await snsLogin(loginParams)
+        // FIXME: 세션 스토리지 생성시 대체될 내용
+        hasCookie(LOGIN_STATUS_STORAGE) && deleteCookie(LOGIN_STATUS_STORAGE)
+        setCookie(LOGIN_STATUS_STORAGE, data.nickname)
+
+        routerReplace(`/${data.nickname}`)
+      } catch {
+        console.error('구글로그인 정보를 가져오지 못했습니다. 잠시 후 다시 시도해 주십시오.')
+      }
+    },
+    onError() {
+      console.error('구글로그인 정보를 가져오지 못했습니다. 잠시 후 다시 시도해 주십시오.')
+    },
   })
 
+  const handleClick = () => {
+    handleLogin()
+  }
+
   return (
-    <button type='button' onClick={handleLogin} className={cx('google-button')}>
+    <button type='button' onClick={handleClick} className={cx('google-button')}>
       {type === 'login' && <div className='google-button__login'>구글로 로그인하기</div>}
       {type === 'join' && <div className='google-button__join'>구글로 회원가입하기</div>}
     </button>
+  )
+}
+
+const GoogleLoginButton = ({ type }: SocialLoginProps) => {
+  return (
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
+      {/* {!loginStatus && <CustomButton type={type} />} */}
+      {/* {loginStatus && <div>{loginStatus}님 환영합니다. </div>} */}
+      <CustomButton type={type} />
+    </GoogleOAuthProvider>
   )
 }
 
