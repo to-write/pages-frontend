@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import { getCookie, hasCookie } from 'cookies-next'
+
+const LOGIN_STATUS_STORAGE = 'LoginStatus'
 
 const Kakao: NextPage = () => {
   const router = useRouter()
@@ -8,15 +11,40 @@ const Kakao: NextPage = () => {
 
   const loginHandler = useCallback(
     async (code: string | string[]) => {
-      const response: Response = await fetch('/api/auth/kakao-login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          authCode: code,
-        }),
-      }).then((res: Response) => res.json())
+      try {
+        const response = await fetch('/api/auth/kakao-login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            authCode: code,
+          }),
+        })
+        console.log(response)
+        const data = await response.json()
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+
+      // const response: Response = await fetch('/api/auth/kakao-login', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     authCode: code,
+      //   }),
+      // }).then((res: Response) => res.json())
+
+      // console.log('response: ', response)
+
+      // if (hasCookie(LOGIN_STATUS_STORAGE)) {
+      //   const userName = getCookie(LOGIN_STATUS_STORAGE)
+      //   console.log('kakao username', userName)
+      //   router.replace(`/${userName}`)
+      // }
 
       // TODO 라우팅 설정
       // if (response.ok) {

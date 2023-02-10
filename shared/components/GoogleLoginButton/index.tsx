@@ -16,7 +16,7 @@ const CustomButton = ({ type }: SocialLoginProps) => {
   const { replace: routerReplace } = useRouter()
 
   const handleSuccess = (userName: string) => {
-    // FIXME: 세션 스토리지 생성시 대체될 내용
+    // FIXME: 세션 스토리지 생성 시 대체될 내용
     hasCookie(LOGIN_STATUS_STORAGE) && deleteCookie(LOGIN_STATUS_STORAGE)
     setCookie(LOGIN_STATUS_STORAGE, userName)
     routerReplace(`/${userName}`)
@@ -53,8 +53,6 @@ const CustomButton = ({ type }: SocialLoginProps) => {
 const GoogleLoginButton = ({ type }: SocialLoginProps) => {
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
-      {/* {!loginStatus && <CustomButton type={type} />} */}
-      {/* {loginStatus && <div>{loginStatus}님 환영합니다. </div>} */}
       <CustomButton type={type} />
     </GoogleOAuthProvider>
   )
