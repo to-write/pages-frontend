@@ -12,46 +12,22 @@ const Kakao: NextPage = () => {
   const loginHandler = useCallback(
     async (code: string | string[]) => {
       try {
-        const response = await fetch('/api/auth/kakao-login', {
+        await fetch('/api/auth/kakao-login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            // /api/auth/kakao-login로 인가코드를 보냄
             authCode: code,
           }),
         })
-        console.log(response)
-        const data = await response.json()
-        return data
+        // console.log(response)
+        // const data = await response.json()
+        // return data
       } catch (error) {
         console.log(error)
       }
-
-      // const response: Response = await fetch('/api/auth/kakao-login', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     authCode: code,
-      //   }),
-      // }).then((res: Response) => res.json())
-
-      // console.log('response: ', response)
-
-      // if (hasCookie(LOGIN_STATUS_STORAGE)) {
-      //   const userName = getCookie(LOGIN_STATUS_STORAGE)
-      //   console.log('kakao username', userName)
-      //   router.replace(`/${userName}`)
-      // }
-
-      // TODO 라우팅 설정
-      // if (response.ok) {
-      //   router.push('/')
-      // } else {
-      //   router.push('/notifications/authentication-failed')
-      // }
     },
 
     [router]

@@ -25,6 +25,7 @@ const CustomButton = ({ type }: SocialLoginProps) => {
   const { mutate: loginMutate } = useLoginMutation({ handleSuccess })
 
   const handleLogin = useGoogleLogin({
+    // useGoogleLogin Hook에서 acceess토큰 받아옴
     async onSuccess(res) {
       const accessToken = res.access_token || ''
       const loginParams: LoginRequest = {
