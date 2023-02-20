@@ -28,10 +28,12 @@ const CustomButton = ({ type }: SocialLoginProps) => {
     // useGoogleLogin Hook에서 acceess토큰 받아옴
     async onSuccess(res) {
       const accessToken = res.access_token || ''
+
       const loginParams: LoginRequest = {
         accessToken,
         authServer: 'google',
       }
+
       loginMutate(loginParams)
     },
     onError() {
