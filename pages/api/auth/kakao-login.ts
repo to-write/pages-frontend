@@ -1,7 +1,5 @@
 /* eslint-disable camelcase */
 import { NextApiRequest, NextApiResponse } from 'next'
-import { setCookie } from 'cookies-next'
-import { useRouter } from 'next/router'
 
 interface Token {
   token_type: string
@@ -41,7 +39,6 @@ type TokenType = { token: string; expiresIn: number }
 
 const getTokenFromKakao = async (authCode: string) => {
   const tokenUrl = `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&code=${authCode}`
-
   const response: Token = await fetch(tokenUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -71,8 +68,6 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
 
 export default handler
 
-const LOGIN_STATUS_STORAGE = 'LoginStatus'
-
 const fetchServiceToken = async (accessToken: string) => {
   fetch('http://220.127.44.94:30800/login', {
     method: 'POST',
@@ -86,13 +81,12 @@ const fetchServiceToken = async (accessToken: string) => {
     .then((data) => {
       console.log('📍 data ---', data)
       const user: ResponseBody[] = [data]
-      setCookie(LOGIN_STATUS_STORAGE, user)
-      // const responseBody = user.map((item) => {
-      //   return {
-      //     nickName: item.nickName,
-      //     access: item.access,
-      //     refresh: item.refresh,
-      //   }
-      // })
+      const responseBody = user.map((item) => {
+        return {
+          nickName: item.nickName,
+          access: item.access,
+          refresh: item.refresh,
+        }
+      })
     })
 }
