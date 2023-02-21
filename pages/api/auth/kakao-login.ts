@@ -1,5 +1,8 @@
+// import { useLoginMutation } from './../../../shared/api/login/index.mutation'
 /* eslint-disable camelcase */
 import { NextApiRequest, NextApiResponse } from 'next'
+import { deleteCookie, hasCookie, setCookie } from 'cookies-next'
+import { useRouter } from 'next/router'
 
 interface Token {
   token_type: string
@@ -54,6 +57,18 @@ const getUserFromKakao = async ({ access_token }: Token) => {
   return response
 }
 
+const LOGIN_STATUS_STORAGE = 'LoginStatus'
+// const { replace: routerReplace } = useRouter()
+
+// const handleSuccess = (userName: string) => {
+//   // FIXME: 세션 스토리지 생성 시 대체될 내용
+//   hasCookie(LOGIN_STATUS_STORAGE) && deleteCookie(LOGIN_STATUS_STORAGE)
+//   setCookie(LOGIN_STATUS_STORAGE, userName)
+//   routerReplace(`/${userName}`)
+// }
+
+// const { mutate: loginMutate } = useLoginMutation({})
+
 const handler = async (request: NextApiRequest, response: NextApiResponse) => {
   const { authCode } = request.body
 
@@ -62,6 +77,8 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
   const user = await getUserFromKakao(token)
 
   const { access_token: accessToken } = token
+
+  // 여기서 accessToken 사용
 
   fetchServiceToken(accessToken)
 }
