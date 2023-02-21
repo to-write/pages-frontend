@@ -55,7 +55,7 @@ const Kakao: NextPage = () => {
     // FIXME: 세션 스토리지 생성 시 대체될 내용
     hasCookie(LOGIN_STATUS_STORAGE) && deleteCookie(LOGIN_STATUS_STORAGE)
     setCookie(LOGIN_STATUS_STORAGE, userName)
-    router.replace(`/${userName}`)
+    router.replace(`/${userName}`, undefined, { shallow: true })
   }
   const { mutate: loginMutate } = useLoginMutation({ handleSuccess })
 
@@ -91,13 +91,29 @@ const Kakao: NextPage = () => {
       authServer: 'kakao',
     }
 
-    await loginMutate(loginParams)
+    // await loginMutate(loginParams)
     // await handleLogin()
+
+    const serviceToken = await getServiceToken(loginParams)
+    return serviceToken
   }
-  // FIXME 여기서 hadleLogin 호출되는 시기 잘 고려해서 코드 좀 잘 짜봐 다시
-  // useEffect(() => {
-  //   handleLogin()
-  // }, [])
+
+  // eslint-disable-next-line consistent-return
+  const getServiceToken = async (loginParams: LoginRequest) => {
+    try {
+      const response = fetch('http://220.127.44.94:30800/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(loginParams),
+      })
+      const data = (await response).json
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const test = handleLogin()
+  console.log('test', test)
 
   return <div>로그인 중..</div>
 }

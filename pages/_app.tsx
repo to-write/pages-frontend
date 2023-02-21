@@ -39,7 +39,8 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
   )
 
   const initializeKakao = () => {
-    if (!window.Kakao.isInitialized()) window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY)
+    // if (!window.Kakao.isInitialized()) window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY)
+    window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY)
     console.log('SDK 초기화 여부: ', window.Kakao.isInitialized())
   }
 
