@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 import React, { useCallback, useEffect } from 'react'
-import { NextApiRequest, NextApiResponse, NextPage } from 'next'
+import { GetServerSidePropsContext, NextApiRequest, NextApiResponse, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { deleteCookie, getCookie, hasCookie, setCookie } from 'cookies-next'
 import { useLoginMutation } from '../shared/api'
 import { LoginRequest } from '../shared/types/api'
+import { ServerSideProps } from '../shared/types/common/next'
 
 export interface Token {
   token_type: string
@@ -18,9 +19,11 @@ export interface Token {
 
 const LOGIN_STATUS_STORAGE = 'LoginStatus'
 
-const Kakao: NextPage = () => {
-  const router = useRouter()
-  const { code, error: kakaoServerError } = router.query
+const Kakao = ({ code }: ServerSideProps<typeof getServerSideProps>) => {
+  // const router = useRouter()
+  // const { code, error: kakaoServerError } = router.query
+
+  console.log('code', code)
 
   // const loginHandler = useCallback(
   //   async (code: string | string[]) => {
@@ -95,11 +98,19 @@ const Kakao: NextPage = () => {
     // await handleLogin()
   }
   // FIXME 여기서 hadleLogin 호출되는 시기 잘 고려해서 코드 좀 잘 짜봐 다시
-  // useEffect(() => {
-  //   handleLogin()
-  // }, [])
+  useEffect(() => {
+    handleLogin()
+  }, [])
 
   return <div>로그인 중..</div>
 }
 
 export default Kakao
+
+export const getServerSideProps = async ({ query }: GetServerSidePropsContext) => {
+  const code = `${query.code}`
+
+  return {
+    props: { code },
+  }
+}
