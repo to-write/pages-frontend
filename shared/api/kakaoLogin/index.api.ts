@@ -1,42 +1,31 @@
 /* eslint-disable consistent-return */
 import axios from 'axios'
 
-export const getKakaoToken = async (code: string | string[]) => {
-  const url = 'https://kauth.kakao.com/oauth/token'
+export interface Token {
+  token_type: string
+  access_token: string
+  refresh_token: string
+  id_token: string
+  expires_in: number
+  refresh_token_expires_in: string
+  scope: string
+}
+
+export const getTokenFromKakao = async (code: string): Promise<Token | any> => {
+  const url = `https://kauth.kakao.com/oauth/token`
   const params = {
     grant_type: 'authorization_code',
-    client_id: process.env.NEXT_PUBLIC_KAKAO_JS_KEY,
+    client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
     redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
     code,
   }
+  const { data } = await axios.post(url, undefined, { params })
 
-  try {
-    const response = await axios.post(url, null, {
-      params,
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-      },
-    })
-
-    return response.data
-  } catch (error) {
-    console.error(error as Error)
-  }
+  return data
 }
 
-export const getKakaoInfo = async (token: string) => {
-  const url = 'https://kapi.kakao.com/v1/user/access_token_info'
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-  try {
-    const response = await axios.get(url, config)
-    const { id } = response.data
-
-    return id
-  } catch (error) {
-    console.error(error as Error)
-  }
+export const getUserFromKakao = async (accessToken: string) => {
+  const userInfoUrl = 'https://kapi.kakao.com/v2/user/me'
+  const { data } = await axios.get(userInfoUrl, { headers: { Authorization: `Bearer ${accessToken}` } })
+  return data
 }
