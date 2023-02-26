@@ -2,7 +2,6 @@ import classNames from 'classnames/bind'
 import styles from './index.module.scss'
 import { Footer, Header } from '../../components'
 import { DefaultLayoutProps } from '../../types'
-import { ReactNode } from 'react'
 
 const cx = classNames.bind(styles)
 

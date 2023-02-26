@@ -6,7 +6,6 @@ import { FunctionComponent, useState } from 'react'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { DefaultLayout } from '../shared/layout'
-import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
@@ -59,14 +58,12 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
       <div className='app'>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
-            <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
-              <Layout {...LayoutProps}>
-                <Component {...pageProps} />
-              </Layout>
-            </GoogleOAuthProvider>
+            <Layout {...LayoutProps}>
+              <Component {...pageProps} />
+            </Layout>
             <div id='root-modal' />
           </Hydrate>
-          <ReactQueryDevtools initialIsOpen={process.env.NODE_ENV !== 'production'} />
+          {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
         </QueryClientProvider>
       </div>
     </>
