@@ -1,31 +1,62 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import classNames from 'classnames/bind'
-import styles from 'typography.module.scss'
+import styles from './index.module.scss'
 
 const cx = classNames.bind(styles)
 
-const typeProps = {
-  H1: 'H1',
-  H2: 'H2',
-  H3: 'H3',
-  B1: 'B1',
-  B2: 'B2',
-  B3: 'B3',
-}
+type DisplayTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5'
+type BodyTag = 'span' | 'div' | 'em' | 'li' | 'ul' | 'strong'
 
-type TypographyTag = 'span' | 'div' | 'em' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'li' | 'ul' | 'strong'
+type DisplayType = '50' | '44' | '38' | '32' | '28' | '24' | '22' | '22-semibold'
+type BodyType = '16' | '15' | '14' | '13'
 
-export interface TypographyProps {
-  type?: keyof typeof typeProps
-  tag?: TypographyTag
-  weight?: 'regular' | 'medium' | 'bold'
-  extendClass?: string
+interface Typography {
   children?: React.ReactNode
 }
 
-const Typography = ({ type = 'B1', tag = 'span', weight = 'regular', extendClass, children }: TypographyProps) => {
-  const Component = `${tag}` as keyof JSX.IntrinsicElements
-  return <Component className={cx(weight, type, extendClass)}>{children}</Component>
+interface DisplayProps extends Typography {
+  type?: DisplayType
+  tag?: DisplayTag
 }
 
-export default Typography
+interface BodyProps extends Typography {
+  type?: BodyType
+  tag?: BodyTag
+}
+
+interface HeadingProps extends Typography {
+  type?: '20' | '18' | BodyType
+  tag?: DisplayTag | BodyTag
+  weight?: 'bold' | 'semi-bold' | 'medium' | 'regular'
+}
+
+export const Display = ({ type = '32', tag = 'h1', children }: DisplayProps) => {
+  const Component = `${tag}` as keyof JSX.IntrinsicElements
+  const fontSize = useMemo(() => ({ fontSize: `${type}px` }), [])
+  console.log('Display - ', type)
+  return (
+    <Component className={cx('display', `display-${type}`)} style={fontSize}>
+      {children}
+    </Component>
+  )
+}
+
+export const Body = ({ type = '14', tag = 'span', children }: BodyProps) => {
+  const Component = `${tag}` as keyof JSX.IntrinsicElements
+  const fontSize = useMemo(() => ({ fontSize: `${type}px` }), [])
+  return (
+    <Component className={cx('body', `body-${type}`)} style={fontSize}>
+      {children}
+    </Component>
+  )
+}
+
+export const Heading = ({ type = '16', tag = 'h2', children, weight }: HeadingProps) => {
+  const Component = `${tag}` as keyof JSX.IntrinsicElements
+  const fontSize = useMemo(() => ({ fontSize: `${type}px` }), [])
+  return (
+    <Component className={cx(type, weight)} style={fontSize}>
+      {children}
+    </Component>
+  )
+}
