@@ -3,23 +3,20 @@ import { SocialLoginProps } from '../../types/SocialLogin'
 
 import styles from './index.module.scss'
 import classNames from 'classnames/bind'
-import { snsLogin, useLoginMutation } from '../../api'
-import { deleteCookie, hasCookie, setCookie } from 'cookies-next'
+import { useLoginMutation } from '../../api'
 import { useRouter } from 'next/router'
-import { LoginRequest } from '../../types/api'
+import { LoginRequest, LoginResponse } from '../../types/api'
+import { setLoginCookie } from '../../../utils'
 
 const cx = classNames.bind(styles)
-
-const LOGIN_STATUS_STORAGE = 'LoginStatus'
 
 const CustomButton = ({ type }: SocialLoginProps) => {
   const { replace: routerReplace } = useRouter()
 
-  const handleSuccess = (userName: string) => {
-    // FIXME: 세션 스토리지 생성 시 대체될 내용
-    hasCookie(LOGIN_STATUS_STORAGE) && deleteCookie(LOGIN_STATUS_STORAGE)
-    setCookie(LOGIN_STATUS_STORAGE, userName)
-    routerReplace(`/${userName}`)
+  const handleSuccess = ({ access, refresh, nickname }: LoginResponse) => {
+    setLoginCookie({ access, refresh })
+
+    routerReplace(`/${nickname}`)
   }
 
   const { mutate: loginMutate } = useLoginMutation({ handleSuccess })
