@@ -1,39 +1,51 @@
-import React, { useCallback, useEffect } from 'react'
-import { NextPage } from 'next'
+/* eslint-disable camelcase */
+import React, { useEffect } from 'react'
+import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
+import { deleteCookie, hasCookie, setCookie } from 'cookies-next'
+import { getTokenFromKakao, useLoginMutation } from '../shared/api'
+import { LoginRequest } from '../shared/types/api'
+import { ServerSideProps } from '../shared/types/common/next'
+import { dehydrate } from 'react-query'
+import { fetchUserFromKakao, useGetUserFromKakao } from '../shared/api/kakaoLogin/index.queries'
 
-const Kakao: NextPage = () => {
+const LOGIN_STATUS_STORAGE = 'LoginStatus'
+
+const Kakao = ({ accessToken }: ServerSideProps<typeof getServerSideProps>) => {
   const router = useRouter()
-  const { code: authCode, error: kakaoServerError } = router.query
+  const { data } = useGetUserFromKakao(accessToken)
 
-  const loginHandler = useCallback(
-    async (code: string | string[]) => {
-      const response: Response = await fetch('/api/auth/kakao-login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          authCode: code,
-        }),
-      }).then((res: Response) => res.json())
+  const handleSuccess = (userName: string) => {
+    // FIXME: 세션 스토리지 생성 시 대체될 내용
+    hasCookie(LOGIN_STATUS_STORAGE) && deleteCookie(LOGIN_STATUS_STORAGE)
+    setCookie(LOGIN_STATUS_STORAGE, userName)
+    router.replace(`/${userName}`)
+  }
 
-      // TODO 라우팅 설정
-      // if (response.ok) {
-      //   router.push('/')
-      // } else {
-      //   router.push('/notifications/authentication-failed')
-      // }
-    },
+  const { mutate: loginMutate } = useLoginMutation({ handleSuccess })
 
-    [router]
-  )
-
+  // FIXME 여기서 hadleLogin 호출되는 시기 잘 고려해서 코드 좀 잘 짜봐 다시
   useEffect(() => {
-    if (authCode) loginHandler(authCode)
-    if (kakaoServerError) console.log('❗️', kakaoServerError)
-  }, [loginHandler, authCode, kakaoServerError, router])
+    const loginParams: LoginRequest = {
+      accessToken,
+      authServer: 'kakao',
+    }
+
+    loginMutate(loginParams)
+  }, [])
+
   return <div>로그인 중..</div>
 }
 
 export default Kakao
+
+export const getServerSideProps = async ({ query }: GetServerSidePropsContext) => {
+  const code = `${query.code}`
+  const { access_token: accessToken } = await getTokenFromKakao(code)
+
+  const queryClient = fetchUserFromKakao(accessToken)
+
+  return {
+    props: { dehydrateState: dehydrate(queryClient), code, accessToken },
+  }
+}
