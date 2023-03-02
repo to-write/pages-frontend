@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 
 const MyPage = ({ id }: ServerSideProps<typeof getServerSideProps>) => {
   const router = useRouter()
-  console.log('======id', id)
   if (!id) router.replace('/')
 
   return (
