@@ -1,11 +1,12 @@
 import '../styles/index.scss'
 import Head from 'next/head'
 import Script from 'next/script'
-import type { AppProps } from 'next/app'
+import type { AppContext, AppProps } from 'next/app'
 import { FunctionComponent, useState } from 'react'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { DefaultLayout } from '../shared/layout'
+import { Provider, Session, SessionStore, useCreateStore } from '../shared/store/session'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
@@ -23,7 +24,8 @@ declare global {
   }
 }
 
-const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
+const CustomApp = ({ Component, pageProps, session }: AppPropsWithLayout) => {
+  // const createStore = useCreateStore(session as SessionStore)
   const Layout = Component.Layout ?? DefaultLayout
   const LayoutProps = Component.LayoutProps ?? {}
 
@@ -39,8 +41,7 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
   )
 
   const initializeKakao = () => {
-    if (!window.Kakao.isInitialized()) window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY)
-    console.log('SDK 초기화 여부: ', window.Kakao.isInitialized())
+    window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY)
   }
 
   return (
@@ -57,11 +58,13 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
       />
       <div className='app'>
         <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
+          <Hydrate state={pageProps?.dehydratedState}>
+            {/* <Provider createStore={createStore}> */}
             <Layout {...LayoutProps}>
               <Component {...pageProps} />
             </Layout>
             <div id='root-modal' />
+            {/* </Provider> */}
           </Hydrate>
           {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
         </QueryClientProvider>
@@ -70,4 +73,8 @@ const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
   )
 }
 
-export default App
+export default CustomApp
+
+// CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
+//   const { req, res } = ctx
+// }

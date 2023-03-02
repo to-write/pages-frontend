@@ -3,7 +3,7 @@ import { LoginRequest, LoginResponse } from '../../types/api'
 import { snsLogin } from './index.api'
 
 export interface LoginMutationParams {
-  handleSuccess?: (name: string) => void
+  handleSuccess?: ({ access, nickname, refresh }: LoginResponse) => void
 }
 
 export const useLoginMutation = ({ handleSuccess }: LoginMutationParams) => {
@@ -11,7 +11,7 @@ export const useLoginMutation = ({ handleSuccess }: LoginMutationParams) => {
     onSuccess: (data) => {
       // FIXME: 데이터 확인하기 위한 임시 로직
       alert(`로그인 성공 ${data.nickname}님 환영합니다.`)
-      handleSuccess?.(data.nickname)
+      handleSuccess?.(data)
     },
     onError: (error) => {
       console.error(error)
