@@ -1,5 +1,5 @@
-import { createContext } from 'react'
-import { create, StoreApi, UseBoundStore } from 'zustand'
+import create, { StoreApi, UseBoundStore } from 'zustand'
+import createContext from 'zustand/context'
 
 export interface Session {
   nickname?: string
@@ -11,6 +11,8 @@ export interface SessionStore extends Session {
   logged: boolean
   updateState(session: Omit<Session, 'updateState'>): void
 }
+
+export const { Provider, useStore: useSessionStore } = createContext<SessionStore>()
 
 let store: UseBoundStore<StoreApi<SessionStore>>
 
@@ -33,7 +35,7 @@ export const useCreateStore = (session?: Session) => {
   }
 
   const isReused = !!session
-  store ??= initializeStore(session)
+  // store ??= initializeStore(session)
 
   if (session && isReused) {
     store.setState({}, true)
@@ -41,5 +43,3 @@ export const useCreateStore = (session?: Session) => {
 
   return () => store
 }
-
-export const { Provider } = createContext(initializeStore())
