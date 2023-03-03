@@ -5,8 +5,8 @@
   border-radius: 100px;
 
   &:disabled {
-    background: colors.$gray-200;
-    color: colors.$gray-500;
+    background: colors.$gray-200 !important;
+    color: colors.$gray-500 !important;
   }
 }
 

@@ -6,7 +6,7 @@ const cx = classNames.bind(styles)
 
 interface ButtonProps {
   children: ReactNode
-  type: 'cta' | 'primary' | 'secondary' | 'disabled'
+  type: 'cta' | 'primary' | 'secondary'
   size: 'huge' | 'x-large' | 'large' | 'medium' | 'small' | 'x-small' | 'mini'
   isDisabled?: boolean
   isLoading?: boolean // TODO: 예정
