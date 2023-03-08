@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import classNames from 'classnames/bind'
 import styles from './index.module.scss'
 
@@ -23,10 +23,22 @@ const InputField = ({
   children,
   readOnly = false,
 }: InputFieldProps) => {
+  const [input, setInput] = useState('')
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value)
+  }
+
   return (
     <>
       <label className={cx('label')}> {label} </label>
-      <input type={type} placeholder={placeholder} className={cx('input', error)} readOnly={readOnly} />
+      <input
+        type={type}
+        placeholder={placeholder}
+        className={cx('input', error && 'error', input && 'filled')}
+        readOnly={readOnly}
+        onChange={handleChange}
+      />
       <div className={cx('description')}> {description} </div>
     </>
   )
