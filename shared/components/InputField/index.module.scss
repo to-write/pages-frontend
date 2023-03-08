@@ -35,3 +35,14 @@
     }
   }
 }
+
+.error {
+  border: 1px solid colors.$negative-default;
+  &:focus {
+    border: 1px solid colors.$negative-default;
+  }
+}
+
+.filled {
+  border: 1px solid colors.$gray-500;
+}
