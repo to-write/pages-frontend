@@ -74,7 +74,3 @@ const CustomApp = ({ Component, pageProps, session }: AppPropsWithLayout) => {
 }
 
 export default CustomApp
-
-// CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
-//   const { req, res } = ctx
-// }

@@ -1,4 +1,5 @@
 @use 'styles/mixins/responsive';
+@use 'styles/constants/colors';
 
 .layout-container {
   $self: #{&};
@@ -29,9 +30,6 @@
     #{$self}__main {
       overflow: scroll;
       overflow-x: hidden;
-      //   FIXME:임시
-      background-color: navy;
-      // color: #fff;
 
       display: flex;
       flex-direction: column;

@@ -1,5 +1,4 @@
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google'
-import { SocialLoginProps } from '../../types/SocialLogin'
 
 import styles from './index.module.scss'
 import classNames from 'classnames/bind'
@@ -10,7 +9,14 @@ import { setLoginCookie } from '../../../utils'
 
 const cx = classNames.bind(styles)
 
-const CustomButton = ({ type }: SocialLoginProps) => {
+const rootClass = 'google-button'
+
+export interface GoogleLoginButtonProps {
+  type: 'login' | 'join'
+  size?: 'small' | 'regular'
+}
+
+const CustomButton = ({ type, size = 'regular' }: GoogleLoginButtonProps) => {
   const { replace: routerReplace } = useRouter()
 
   const handleSuccess = ({ access, refresh, nickname }: LoginResponse) => {
@@ -43,17 +49,17 @@ const CustomButton = ({ type }: SocialLoginProps) => {
   }
 
   return (
-    <button type='button' onClick={handleClick} className={cx('google-button')}>
+    <button type='button' onClick={handleClick} className={cx(`${rootClass}`, `${rootClass}__${size}`)}>
       {type === 'login' && <div className='google-button__login'>구글로 로그인하기</div>}
       {type === 'join' && <div className='google-button__join'>구글로 회원가입하기</div>}
     </button>
   )
 }
 
-const GoogleLoginButton = ({ type }: SocialLoginProps) => {
+const GoogleLoginButton = ({ type, size = 'regular' }: GoogleLoginButtonProps) => {
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
-      <CustomButton type={type} />
+      <CustomButton type={type} size={size} />
     </GoogleOAuthProvider>
   )
 }
