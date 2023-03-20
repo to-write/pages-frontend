@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useEffect } from 'react'
 import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
