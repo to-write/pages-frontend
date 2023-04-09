@@ -1,12 +1,12 @@
 import '../styles/index.scss'
 import Head from 'next/head'
 import Script from 'next/script'
-import type { AppContext, AppProps } from 'next/app'
+import type { AppProps } from 'next/app'
 import { FunctionComponent, useState } from 'react'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { DefaultLayout } from '../shared/layout'
-import { Provider, Session, SessionStore, useCreateStore } from '../shared/store/session'
+import { Provider, Session, useCreateStore } from '../shared/store/session'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
@@ -14,8 +14,7 @@ export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
     // FIXME: 추후 LayoutProps 정해지면 수정
     LayoutProps: any
   }
-  // FIXME: 추후 Session store 정해지면 수정
-  session?: any
+  session?: Session
 }
 
 declare global {
@@ -25,7 +24,7 @@ declare global {
 }
 
 const CustomApp = ({ Component, pageProps, session }: AppPropsWithLayout) => {
-  // const createStore = useCreateStore(session as SessionStore)
+  const createStore = useCreateStore(session)
   const Layout = Component.Layout ?? DefaultLayout
   const LayoutProps = Component.LayoutProps ?? {}
 
@@ -59,12 +58,12 @@ const CustomApp = ({ Component, pageProps, session }: AppPropsWithLayout) => {
       <div className='app'>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps?.dehydratedState}>
-            {/* <Provider createStore={createStore}> */}
-            <Layout {...LayoutProps}>
-              <Component {...pageProps} />
-            </Layout>
-            <div id='root-modal' />
-            {/* </Provider> */}
+            <Provider createStore={createStore}>
+              <Layout {...LayoutProps}>
+                <Component {...pageProps} />
+              </Layout>
+              <div id='root-modal' />
+            </Provider>
           </Hydrate>
           {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
         </QueryClientProvider>

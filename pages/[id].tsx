@@ -1,8 +1,12 @@
 import { GetServerSidePropsContext } from 'next'
 import { ServerSideProps } from '../shared/types/common/next'
 import { useRouter } from 'next/router'
+import { useSessionStore } from '../shared/store'
 
 const MyPage = ({ id }: ServerSideProps<typeof getServerSideProps>) => {
+  const { logged, nickname } = useSessionStore()
+  console.log('logged', logged, nickname)
+
   const router = useRouter()
   if (!id) router.replace('/')
 

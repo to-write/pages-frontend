@@ -13,6 +13,8 @@ const Kakao = ({ accessToken }: ServerSideProps<typeof getServerSideProps>) => {
   const { data } = useGetUserFromKakao(accessToken)
 
   const handleSuccess = ({ access, refresh, nickname }: LoginResponse) => {
+    console.log('Test')
+
     setLoginCookie({ access, refresh })
 
     router.replace(`/${nickname}`)
