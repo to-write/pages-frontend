@@ -14,3 +14,7 @@ export interface LoginResponse {
     token: string
   }
 }
+
+export interface LoginReissueRequest {
+  refreshToken: string
+}

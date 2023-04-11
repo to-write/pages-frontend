@@ -6,17 +6,12 @@ import { LoginRequest, LoginResponse } from '../shared/types/api'
 import { ServerSideProps } from '../shared/types/common/next'
 import { dehydrate } from 'react-query'
 import { fetchUserFromKakao, useGetUserFromKakao } from '../shared/api/kakaoLogin/index.queries'
-import { setLoginCookie } from '../utils'
 
 const Kakao = ({ accessToken }: ServerSideProps<typeof getServerSideProps>) => {
   const router = useRouter()
   const { data } = useGetUserFromKakao(accessToken)
 
-  const handleSuccess = ({ access, refresh, nickname }: LoginResponse) => {
-    console.log('Test')
-
-    setLoginCookie({ access, refresh })
-
+  const handleSuccess = ({ nickname }: LoginResponse) => {
     router.replace(`/${nickname}`)
   }
 
