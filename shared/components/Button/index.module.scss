@@ -1,0 +1,78 @@
+@use 'styles/mixins/responsive';
+@use 'styles/constants/colors';
+
+.button {
+  border-radius: 100px;
+
+  &:disabled {
+    background: colors.$gray-200 !important;
+    color: colors.$gray-500 !important;
+  }
+}
+
+.cta {
+  background: colors.$primary-500;
+  color: colors.$black;
+
+  &:active {
+    background: colors.$primary-600;
+    color: colors.$white;
+  }
+}
+
+.primary {
+  background: colors.$black;
+  color: colors.$white;
+}
+
+.secondary {
+  border: 1px solid colors.$gray-600;
+  background: colors.$white;
+  color: colors.$gray-600;
+
+  &:active {
+    background: colors.$gray-50;
+  }
+}
+
+.huge {
+  height: 56px;
+  padding: 16px 20px;
+  font-size: 16px;
+}
+
+.x-large {
+  height: 52px;
+  padding: 16px 20px;
+  font-size: 16px;
+}
+
+.large {
+  height: 50px;
+  padding: 11px 16px;
+  font-size: 15px;
+}
+
+.medium {
+  height: 44px;
+  padding: 10px 14px;
+  font-size: 15px;
+}
+
+.small {
+  height: 40px;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+.x-small {
+  height: 32px;
+  padding: 7px 12px;
+  font-size: 13px;
+}
+
+.mini {
+  height: 28px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
