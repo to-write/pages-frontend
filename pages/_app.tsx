@@ -9,7 +9,6 @@ import { DefaultLayout } from '../shared/layout'
 import { Provider, Session, useCreateStore } from '../shared/store/session'
 import { sanitizeCookieString } from '../utils/cookie'
 import { axiosAPI } from '../shared/api-client'
-import { ACCESS_TOKEN_STORE } from '../shared/constants'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
@@ -81,9 +80,9 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
   let session: Partial<Session> = {}
   const cookie = sanitizeCookieString(req?.headers?.cookie || '')
 
-  let accessToken = { token: cookie['ACCESS_TOKEN_STORE'] ?? '', expiresIn: 0 }
+  let accessToken = { token: cookie.ACCESS_TOKEN_STORE ?? '', expiresIn: 0 }
 
-  let refreshToken = { token: cookie['REFRESH_TOKEN_STORE'] ?? '', expiresIn: 0 }
+  let refreshToken = { token: cookie.REFRESH_TOKEN_STORE ?? '', expiresIn: 0 }
 
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx)

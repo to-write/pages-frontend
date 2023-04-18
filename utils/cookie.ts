@@ -12,17 +12,25 @@ export const tryDecodeCookieValue = (str: string): [string, null] | [null, strin
   }
 }
 
-type CookieObj = { [key: string]: string | number }
+export type CookieObj = { [key: string]: string }
+// FIXME: 추후 타입 수정
+interface Cookie {
+  ACCESS_TOKEN_STORE: string
+  REFRESH_TOKEN_STORE: ''
+}
 
 export const sanitizeCookieString = (str: string) => {
+  const cookieObj: CookieObj = {
+    ACCESS_TOKEN_STORE: '',
+    REFRESH_TOKEN_STORE: '',
+  }
   if (!str) {
-    return str
+    return cookieObj
   }
 
   const cookieArray = str.split(';')
-  const cookieObj: CookieObj = {}
 
-  for (let i = 0, max = cookieArray.length; i < max; ++i) {
+  for (let i = 0, max = cookieArray.length; i < max; i += 1) {
     const [key, value] = cookieArray[i].split('=').map((cookie) => cookie.trim())
 
     cookieObj[key] = value
