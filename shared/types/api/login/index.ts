@@ -14,3 +14,12 @@ export interface LoginResponse {
     token: string
   }
 }
+
+export interface LoginReissueRequest {
+  refreshToken: string
+}
+
+export interface CheckTokenRequest {
+  token: string
+  type: 'access' | 'refresh'
+}

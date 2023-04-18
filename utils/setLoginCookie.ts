@@ -3,7 +3,6 @@ import dayjs from 'dayjs'
 import { ACCESS_TOKEN_STORE, REFRESH_TOKEN_STORE } from '../shared/constants'
 import { LoginResponse } from '../shared/types/api'
 
-// FIXME: 보안 이슈 존재
 /** 로그인 완료 후 쿠키 세팅할 함수 */
 export const setLoginCookie = ({ access, refresh }: Omit<LoginResponse, 'nickname'>) => {
   const { expiresIn: accessExpires, token: accessToken } = access
