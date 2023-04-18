@@ -1,2 +1,2 @@
 export * from './setLoginCookie'
-export * from './authCheck'
+export * from './cookie'

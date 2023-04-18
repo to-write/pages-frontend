@@ -12,7 +12,7 @@ const Kakao = ({ accessToken }: ServerSideProps<typeof getServerSideProps>) => {
   const { data } = useGetUserFromKakao(accessToken)
 
   const handleSuccess = ({ nickname }: LoginResponse) => {
-    router.replace(`/${nickname}`)
+    router.replace(`/@${nickname}`)
   }
 
   const { mutate: loginMutate } = useLoginMutation({ handleSuccess })

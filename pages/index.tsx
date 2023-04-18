@@ -1,6 +1,9 @@
 import AsidePortal from '../shared/components/AsidePortal'
+import { useSessionStore } from '../shared/store'
 
 const HomePage = () => {
+  const { logged } = useSessionStore()
+
   return (
     <div>
       랜딩 페이지

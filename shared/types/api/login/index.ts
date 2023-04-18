@@ -18,3 +18,8 @@ export interface LoginResponse {
 export interface LoginReissueRequest {
   refreshToken: string
 }
+
+export interface CheckTokenRequest {
+  token: string
+  type: 'access' | 'refresh'
+}

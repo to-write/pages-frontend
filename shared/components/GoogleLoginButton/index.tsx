@@ -22,7 +22,7 @@ const CustomButton = ({ type, size = 'regular' }: GoogleLoginButtonProps) => {
   const handleSuccess = ({ access, refresh, nickname }: LoginResponse) => {
     setLoginCookie({ access, refresh })
 
-    routerReplace(`/${nickname}`)
+    routerReplace(`/@${nickname}`)
   }
 
   const { mutate: loginMutate } = useLoginMutation({ handleSuccess })
