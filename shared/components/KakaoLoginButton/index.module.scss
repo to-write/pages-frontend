@@ -1,0 +1,15 @@
+@use 'styles/constants/colors';
+
+.kakao-button {
+  display: block;
+  background-color: colors.$kakao-yellow;
+  width: 100%;
+  height: 56px;
+  padding: 16px 20px;
+  border-radius: 100px;
+
+  $self: #{&};
+
+  :global {
+  }
+}

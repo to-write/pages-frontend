@@ -1,22 +1,27 @@
-const Login = () => {
-  // const { data: session } = useSession();
-  // 등록한 redirectUri를 매개변수로 넣어준다.
-  function kakaoLogin() {
-    window.Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:3000/kakao',
-    })
-  }
+import classNames from 'classnames/bind'
+import { GoogleLoginButton } from '../../shared/components'
+import styles from './index.module.scss'
+import KakaoButton from '../../shared/components/KakaoLoginButton'
 
+const cx = classNames.bind(styles)
+
+const LoginPage = () => {
   return (
-    <div>
-      <button type='button' onClick={kakaoLogin}>
-        카카오 로그인
-      </button>
+    <div className={cx('login-page')}>
+      <div className='login-page__info-container'>
+        <h1 className='login-page__title'>시작하기</h1>
+        <div className='login-page__sub-title'>읽고, 발견하고, 연결해보기</div>
+      </div>
+      <div className='login-page__button-container'>
+        <KakaoButton />
+        <GoogleLoginButton type='login' />
+      </div>
     </div>
   )
 }
 
-export default Login
+export default LoginPage
 
-// http://localhost:3000/kakao?code=1mxdTdVB3UrDy78vZplb5EzKyTCUWyxAXbD4Id6iUbzoHJvNcvb2nt6q_A1GGAHa3AztOgopdSkAAAGEwvdbvA
-// 토큰 저장1
+LoginPage.LayoutProps = {
+  metaTitle: '로그인',
+}

@@ -1,0 +1,49 @@
+@use 'styles/mixins/responsive';
+@use 'styles/constants/colors';
+
+.login-page {
+  $self: #{&};
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 56px 20px;
+
+  @include responsive.between(769px, 1023px) {
+    & {
+      width: 450px;
+    }
+  }
+
+  @include responsive.after(1024px) {
+    & {
+      width: 450px;
+    }
+  }
+
+  // TODO global에 사용 맞는 지 확인하기
+
+  :global {
+    #{$self}__button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    #{$self}__info-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    #{$self}__title {
+      font-size: 32px;
+    }
+
+    #{$self}__sub-title {
+      color: colors.$gray-700;
+    }
+  }
+}

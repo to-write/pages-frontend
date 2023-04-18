@@ -1,0 +1,59 @@
+@use 'styles/mixins/responsive';
+@use 'styles/constants/colors';
+
+.layout-container {
+  $self: #{&};
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  // FIXME: 임시
+  border: 1px solid #000;
+
+  :global {
+    #{$self}__main-conatiner {
+      // flex-grow: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+
+      @include responsive.after(1024px) {
+        //TODO: 헤더부분의 패딩과 연계되는 부분으로 예상 서연님과 조율 필요
+        & {
+          padding: 0 60px;
+        }
+      }
+    }
+
+    #{$self}__main {
+      overflow: scroll;
+      overflow-x: hidden;
+
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+
+      @include responsive.after(1024px) {
+        & {
+          flex-grow: 6;
+        }
+      }
+    }
+
+    #{$self}__aisde {
+      display: none;
+
+      @include responsive.after(1024px) {
+        & {
+          display: block;
+          flex-grow: 1;
+          //   FIXME:임시
+          background-color: antiquewhite;
+        }
+      }
+    }
+  }
+}
