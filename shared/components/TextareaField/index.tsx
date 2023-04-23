@@ -17,7 +17,7 @@ const TextareaField = ({
   error = false,
   readOnly = false,
   children,
-  maxLength = 300,
+  maxLength = 500,
 }: TextareaFieldProps) => {
   const [text, setText] = useState('')
 
@@ -28,15 +28,16 @@ const TextareaField = ({
   return (
     <div className={cx('textarea-wrapper')}>
       <textarea
-        placeholder={placeholder}
         className={cx('textarea', error && 'error', text && 'filled')}
+        rows={5}
+        placeholder={placeholder}
         readOnly={readOnly}
         onChange={handleChange}
         maxLength={maxLength}
       />
-      <div className={cx('textarea__counter')}>
-        <span className='current-length'> {text.length} </span>
-        <span className='max-length'> / {maxLength} </span>
+      <div className={cx('counter')}>
+        <span className={cx('current-length')}> {text.length} </span>
+        <span className={cx('max-length')}> / {maxLength} </span>
       </div>
     </div>
   )

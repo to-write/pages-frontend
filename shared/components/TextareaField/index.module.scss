@@ -9,7 +9,6 @@
 
 .textarea-wrapper {
   text-align: right;
-  border: 1px solid red;
   width: 355px;
 }
 
@@ -29,9 +28,6 @@
 
   &:focus {
     border: 1px solid colors.$primary-500;
-    // &::placeholder {
-    //   color: colors.$gray-800;
-    // }
   }
 
   &:read-only {
@@ -42,13 +38,6 @@
       color: colors.$gray-500;
     }
   }
-  // :global {
-  //   #{$self}__counter {
-  //     border: 2px solid red;
-  //     position: relative;
-  //     right: 0;
-  //   }
-  // }
 }
 
 .error {
@@ -62,14 +51,17 @@
   border: 1px solid colors.$gray-500;
 }
 
-.textarea__counter {
-  // border: 2px solid red;
-  position: relative;
-  right: 0;
-}
-.current-length {
-  color: colors.$gray-700;
-}
-.max-length {
-  color: colors.$gray-500;
+.counter {
+  // NOTE textarea 안쪽
+  // position: relative;
+  // bottom: 35px;
+
+  padding: 5px 10px;
+
+  .current-length {
+    color: colors.$gray-700;
+  }
+  .max-length {
+    color: colors.$gray-500;
+  }
 }
