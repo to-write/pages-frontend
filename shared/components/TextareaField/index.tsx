@@ -17,19 +17,16 @@ const TextareaField = ({
   error = false,
   readOnly = false,
   children,
-  maxLength = 1000,
+  maxLength = 300,
 }: TextareaFieldProps) => {
   const [text, setText] = useState('')
-  const [count, setCount] = useState(0)
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value)
-    setCount(text.length + 1)
-    console.log(text.length + 1)
   }
 
   return (
-    <>
+    <div className={cx('textarea-wrapper')}>
       <textarea
         placeholder={placeholder}
         className={cx('textarea', error && 'error', text && 'filled')}
@@ -37,10 +34,11 @@ const TextareaField = ({
         onChange={handleChange}
         maxLength={maxLength}
       />
-      <span>
-        {count} / {maxLength}
-      </span>
-    </>
+      <div className={cx('textarea__counter')}>
+        <span className='current-length'> {text.length} </span>
+        <span className='max-length'> / {maxLength} </span>
+      </div>
+    </div>
   )
 }
 
