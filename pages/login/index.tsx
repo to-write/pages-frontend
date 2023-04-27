@@ -14,7 +14,11 @@ const LoginPage = () => {
       </div>
       <div className='login-page__button-container'>
         <KakaoButton />
-        <GoogleLoginButton type='login' />
+
+        {/* <GoogleButton /> */}
+
+
+
       </div>
     </div>
   )
