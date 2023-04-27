@@ -9,6 +9,7 @@ import { DefaultLayout } from '../shared/layout'
 import { Provider, Session, useCreateStore } from '../shared/store/session'
 import { sanitizeCookieString } from '../utils/cookie'
 import { axiosAPI } from '../shared/api-client'
+import { checkToken, loginReissue } from '../shared/api'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
@@ -95,21 +96,21 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
 
   try {
     if (!accessToken.token) {
-      const reissueData = await axiosAPI
-        .post('http://219.248.110.167:30800/reissue', {
-          refreshToken: refreshToken.token,
-        })
-        .catch((e) => console.log('error catched'))
-      accessToken = reissueData?.data?.access
-      refreshToken = reissueData?.data?.refresh
+      const reissueData = await loginReissue({ refreshToken: refreshToken.token }).catch((e) =>
+        console.log('error catched')
+      )
+
+      accessToken = reissueData?.access || { token: cookie.ACCESS_TOKEN_STORE ?? '', expiresIn: 0 }
+      refreshToken = reissueData?.refresh || { token: cookie.REFRESH_TOKEN_STORE ?? '', expiresIn: 0 }
     }
 
     // TODO: 에러 핸들링 해야할듯
-    const { data: accessData } = await axiosAPI.get(
-      `http://219.248.110.167:30800/check-token?token=${accessToken.token}&type=access`
-    )
+    const { access, nickname } = await checkToken({ token: accessToken.token, type: 'access' })
+    // const { data: accessData } = await axiosAPI.get(
+    //   `http://219.248.110.167:30800/check-token?token=${accessToken.token}&type=access`
+    // )
 
-    accessToken = accessData?.access
+    accessToken = access
 
     session = {
       ...session,
@@ -117,7 +118,7 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
       accessExpire: accessToken?.expiresIn,
       refreshToken: refreshToken?.token,
       refreshExpire: refreshToken?.expiresIn,
-      nickname: accessData?.nickname,
+      nickname: nickname || '',
     }
   } catch (e) {
     console.log('error catched', e)

@@ -56,12 +56,11 @@ function getEnvPath(key: string): string {
   let envPath = ''
   if (typeof window !== 'undefined') {
     envPath = key
-  } else {
-    envPath = key.replace('_PUBLIC', '')
+  } else if (globalThis.process.env.NODE_ENV !== 'production') {
+    envPath = key.replace('_PUBLIC', '_DEVELOPMENT')
   }
-  console.log(process.env[envPath])
 
   return process.env[envPath] as string
 }
 
-export const axiosAPI = createAxios({ baseURL: getEnvPath('NEXT_PUBLIC_API_URL') })
+export const axiosAPI = createAxios({ baseURL: process.env.NEXT_PUBLIC_API_URL })

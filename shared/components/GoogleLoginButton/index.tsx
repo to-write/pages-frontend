@@ -32,6 +32,8 @@ const CustomButton = ({ type, size = 'regular' }: GoogleLoginButtonProps) => {
     async onSuccess(res) {
       const accessToken = res.access_token || ''
 
+      console.log('accessToken', accessToken)
+
       const loginParams: LoginRequest = {
         accessToken,
         authServer: 'google',
