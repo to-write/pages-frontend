@@ -8,14 +8,18 @@ const cx = classNames.bind(styles)
 const LoginPage = () => {
   return (
     <div className={cx('login-page')}>
-      {/* FIXME: 임시 */}
-      <h1 className='login-page__title'>로그인 페이지</h1>
-      <div className='login-container__button-container'>
-        <KakaoButton />
-        {/* <GoogleButton /> */}
+      <div className='login-page__info-container'>
+        <h1 className='login-page__title'>시작하기</h1>
+        <div className='login-page__sub-title'>읽고, 발견하고, 연결해보기</div>
       </div>
+      <div className='login-page__button-container'>
+        <KakaoButton />
 
-      <GoogleLoginButton type='login' />
+        {/* <GoogleButton /> */}
+
+
+
+      </div>
     </div>
   )
 }

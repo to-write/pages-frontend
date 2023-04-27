@@ -1,12 +1,12 @@
 @use 'styles/mixins/responsive';
 @use 'styles/constants/colors';
 
-.login-container {
+.login-page {
   $self: #{&};
   height: 100%;
   width: 100%;
   margin: 0 auto;
-  padding: 50px;
+  padding: 56px 20px;
 
   @include responsive.between(769px, 1023px) {
     & {
@@ -23,15 +23,27 @@
   // TODO global에 사용 맞는 지 확인하기
 
   :global {
-    #{$self}__logo {
-      border: 3px solid orange; // FIXME 임시 border
-      width: 100%;
-      height: 260px;
-    }
     #{$self}__button-container {
-      border: 3px solid orange; // FIXME 임시 border
-      width: 100%;
-      height: 260px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    #{$self}__info-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    #{$self}__title {
+      font-size: 32px;
+    }
+
+    #{$self}__sub-title {
+      color: colors.$gray-700;
     }
   }
 }

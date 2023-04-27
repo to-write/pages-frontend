@@ -27,6 +27,7 @@ function createAxios(requestConfig: AxiosRequestConfig): AxiosInstance {
             window.dispatchEvent(new CustomEvent('apiError', { detail: errorData }))
             break
           } else {
+            console.log(errorData)
             throw BadRequestError(errorData)
           }
         case 401:

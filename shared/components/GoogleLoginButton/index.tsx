@@ -1,25 +1,28 @@
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google'
-import { SocialLoginProps } from '../../types/SocialLogin'
 
 import styles from './index.module.scss'
 import classNames from 'classnames/bind'
-import { snsLogin, useLoginMutation } from '../../api'
-import { deleteCookie, hasCookie, setCookie } from 'cookies-next'
+import { useLoginMutation } from '../../api'
 import { useRouter } from 'next/router'
-import { LoginRequest } from '../../types/api'
+import { LoginRequest, LoginResponse } from '../../types/api'
+import { setLoginCookie } from '../../../utils'
 
 const cx = classNames.bind(styles)
 
-const LOGIN_STATUS_STORAGE = 'LoginStatus'
+const rootClass = 'google-button'
 
-const CustomButton = ({ type }: SocialLoginProps) => {
+export interface GoogleLoginButtonProps {
+  type: 'login' | 'join'
+  size?: 'small' | 'regular'
+}
+
+const CustomButton = ({ type, size = 'regular' }: GoogleLoginButtonProps) => {
   const { replace: routerReplace } = useRouter()
 
-  const handleSuccess = (userName: string) => {
-    // FIXME: 세션 스토리지 생성 시 대체될 내용
-    hasCookie(LOGIN_STATUS_STORAGE) && deleteCookie(LOGIN_STATUS_STORAGE)
-    setCookie(LOGIN_STATUS_STORAGE, userName)
-    routerReplace(`/${userName}`)
+  const handleSuccess = ({ access, refresh, nickname }: LoginResponse) => {
+    setLoginCookie({ access, refresh })
+
+    routerReplace(`/@${nickname}`)
   }
 
   const { mutate: loginMutate } = useLoginMutation({ handleSuccess })
@@ -46,17 +49,17 @@ const CustomButton = ({ type }: SocialLoginProps) => {
   }
 
   return (
-    <button type='button' onClick={handleClick} className={cx('google-button')}>
+    <button type='button' onClick={handleClick} className={cx(`${rootClass}`, `${rootClass}__${size}`)}>
       {type === 'login' && <div className='google-button__login'>구글로 로그인하기</div>}
       {type === 'join' && <div className='google-button__join'>구글로 회원가입하기</div>}
     </button>
   )
 }
 
-const GoogleLoginButton = ({ type }: SocialLoginProps) => {
+const GoogleLoginButton = ({ type, size = 'regular' }: GoogleLoginButtonProps) => {
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
-      <CustomButton type={type} />
+      <CustomButton type={type} size={size} />
     </GoogleOAuthProvider>
   )
 }
