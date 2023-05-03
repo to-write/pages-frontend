@@ -1,6 +1,7 @@
 @use 'styles/mixins/responsive';
+@use 'styles/constants/colors';
 
-.header-container {
+.header {
   $self: #{&};
 
   //TODO: 조율 필요
@@ -11,10 +12,11 @@
   align-items: center;
 
   @include responsive.after(1024px) {
-    height: 80px;
+    width: 860px;
+    height: 56px;
 
     & {
-      padding: 20px 60px;
+      padding: 16px 24px;
     }
   }
 
