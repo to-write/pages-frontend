@@ -8,30 +8,27 @@ export type menuItem = { menuIcon: ReactNode | string; menuName: string; onClick
 
 export interface NavigationProps {
   children?: ReactNode
-  onClick?: MouseEventHandler
+  // onClick?: MouseEventHandler
   menuItems?: menuItem[]
 }
 
-const Navigation = ({ children, menuItems, onClick }: NavigationProps) => {
+const Navigation = ({ children, menuItems }: NavigationProps) => {
+  console.log('=====', menuItems)
   return (
     <nav className={cx('navigation')}>
       <div className='navigation__menu-container'>
         <div className='navigation__logo'>LOGO</div>
         <ul className='navigation__menu'>
-          <li className='navigation__menu-item'>
-            <span className='navigation__menu-icon'>icon</span>
-            <span className='navigation__menu-name'>홈</span>
-          </li>
-          <li className='navigation__menu-item'>
-            <span className='navigation__menu-icon'>icon</span>
-            <span className='navigation__menu-name'>내 책장</span>
-          </li>
-          <li className='navigation__menu-item'>
-            <span className='navigation__menu-icon'>icon</span>
-            <span className='navigation__menu-name'>내 프로필</span>
-          </li>
+          {menuItems?.map((item) => (
+            // FIXME eslint 설정
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+            <li className='navigation__menu-item' key={item.menuName} onClick={item.onClick}>
+              <span className='navigation__menu-icon'>{item.menuIcon}</span>
+              <span className='navigation__menu-name'>{item.menuName}</span>
+            </li>
+          ))}
         </ul>
-        <div className='navigation__btn-container'> 버튼 컴포넌트</div>
+        <div className='navigation__btn-container'> {children} </div>
       </div>
 
       <div className={cx('navigation-profile')}>
@@ -46,3 +43,11 @@ const Navigation = ({ children, menuItems, onClick }: NavigationProps) => {
 }
 
 export default Navigation
+
+/*
+랜딩페이지에서 로그인 상태
+logged true -> 마이페이지
+logged false -> 로그인 화면
+
+useRouter - replace
+*/
