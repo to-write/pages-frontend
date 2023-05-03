@@ -1,62 +1,37 @@
-import React, { ReactNode, useMemo } from 'react'
+import React from 'react'
 import classNames from 'classnames/bind'
 import styles from './index.module.scss'
 
 const cx = classNames.bind(styles)
 
-type TextDisplayTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5'
-type TextBodyTag = 'span' | 'div' | 'em' | 'li' | 'ul' | 'strong'
+interface TypographyProps {
+  type:
+    | 'display-50'
+    | 'display-44'
+    | 'display-38'
+    | 'display-32'
+    | 'display-28'
+    | 'display-24'
+    | 'display-22'
+    | 'heading-20'
+    | 'heading-18'
+    | 'heading-16'
+    | 'heading-15'
+    | 'heading-14'
+    | 'heading-13'
+    | 'body-16'
+    | 'body-15'
+    | 'body-14'
 
-type TextDisplayType = '50' | '44' | '38' | '32' | '28' | '24' | '22' | '22-semibold'
-type TextBodyType = '16' | '15' | '14' | '13'
-
-interface Typography {
+  weight?: 'bold' | 'semibold' | 'medium' | 'regular'
+  tag?: string // FIXME 임시
   children?: React.ReactNode
-  colors?: 'black' | 'primary' | 'secondary' | 'positive' | 'negative'
+  color?: 'black' | 'primary' | 'secondary' | 'positive' | 'negative'
 }
 
-interface TextDisplayProps extends Typography {
-  type?: TextDisplayType
-  tag?: TextDisplayTag
+const Typography = ({ type, weight = 'regular', color = 'black', tag = 'p', children }: TypographyProps) => {
+  const Component = `${tag}` as keyof JSX.IntrinsicElements
+  return <Component className={cx(`${type} ${weight} ${color}`)}>{children}</Component>
 }
 
-interface TextBodyProps extends Typography {
-  type?: TextBodyType
-  tag?: TextBodyTag
-}
-
-interface TextHeadingProps extends Typography {
-  type?: '20' | '18' | TextBodyType
-  tag?: TextDisplayTag | TextBodyTag
-  weight?: 'bold' | 'semi-bold' | 'medium' | 'regular'
-}
-
-export const TextDisplay = ({ type = '32', tag = 'h1', colors = 'black', children }: TextDisplayProps) => {
-  const Tag = `${tag}` as keyof JSX.IntrinsicElements
-  const fontSize = useMemo(() => ({ fontSize: `${type}px` }), [])
-  return (
-    <Tag className={cx('display', `display-${type}`, colors)} style={fontSize}>
-      {children}
-    </Tag>
-  )
-}
-
-export const TextBody = ({ type = '14', tag = 'span', colors = 'black', children }: TextBodyProps) => {
-  const Tag = `${tag}` as keyof JSX.IntrinsicElements
-  const fontSize = useMemo(() => ({ fontSize: `${type}px` }), [])
-  return (
-    <Tag className={cx('body', `body-${type}`, colors)} style={fontSize}>
-      {children}
-    </Tag>
-  )
-}
-
-export const TextHeading = ({ type = '16', tag = 'h2', colors = 'black', children, weight }: TextHeadingProps) => {
-  const Tag = `${tag}` as keyof JSX.IntrinsicElements
-  const fontSize = useMemo(() => ({ fontSize: `${type}px` }), [])
-  return (
-    <Tag className={cx(type, weight, colors)} style={fontSize}>
-      {children}
-    </Tag>
-  )
-}
+export default Typography
