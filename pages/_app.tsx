@@ -91,15 +91,18 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
     //   pageViewData = { ...pageViewData, ...pageProps.pageViewData }
     // }
   }
-  // TODO: 여기서 session = api에서 받아온 정보로 세팅
 
   try {
     if (!accessToken.token) {
+      if (!refreshToken.token) {
+        // accessToken,refreshToken 둘다 없을 경우 api 호출 X
+        return { ...pageProps, session }
+      }
       const reissueData = await axiosAPI
         .post('http://219.248.110.167:30800/reissue', {
           refreshToken: refreshToken.token,
         })
-        .catch((e) => console.log('error catched'))
+        .catch((e) => console.log('login error catched', e))
       accessToken = reissueData?.data?.access
       refreshToken = reissueData?.data?.refresh
     }

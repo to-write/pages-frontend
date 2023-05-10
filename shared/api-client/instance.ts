@@ -59,7 +59,6 @@ function getEnvPath(key: string): string {
   } else {
     envPath = key.replace('_PUBLIC', '')
   }
-  console.log(process.env[envPath])
 
   return process.env[envPath] as string
 }

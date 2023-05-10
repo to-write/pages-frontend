@@ -21,13 +21,13 @@ const MyPage = ({ id }: ServerSideProps<typeof getServerSideProps>) => {
   useEffect(() => {
     if (formmatError) {
       alert('에러')
-      // router.replace('/')
+      router.replace('/')
       return
     }
     if (isNotMine) {
       alert('유저 불일치')
+      router.replace('/')
       return
-      // router.replace('/')
     }
 
     if (!logged && !accessToken && !refreshToken) {
@@ -44,7 +44,7 @@ const MyPage = ({ id }: ServerSideProps<typeof getServerSideProps>) => {
         router.replace('/login')
       }
     }
-  }, [logged, id])
+  }, [logged, id, router])
 
   if (isNotMine || formmatError) {
     return <div>페이지를 찾을 수 없습니다.</div>
@@ -68,8 +68,11 @@ MyPage.LayoutProps = {
   metaTitle: `마이페이지`,
 }
 
-export const getServerSideProps = async ({ query }: GetServerSidePropsContext) => {
+export const getServerSideProps = async ({ query, res, req }: GetServerSidePropsContext) => {
   const id = `${query.id}`
+
+  console.log('req test', req)
+  console.log('res test', res)
 
   return {
     props: { id },
