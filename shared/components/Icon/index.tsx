@@ -1,0 +1,28 @@
+import classNames from 'classnames/bind'
+import { ICON_NAME } from '../../constants/icon'
+import { IconName } from '../../types'
+import styles from './index.module.scss'
+
+const cx = classNames.bind(styles)
+
+export interface IconProps {
+  size?: number
+  iconName: IconName
+}
+
+const Icon = ({ size = 18, iconName }: IconProps) => {
+  const iconStyles = {
+    width: `${size}px`,
+    height: `${size}px`,
+  }
+
+  const iconSrc = ICON_NAME[iconName]?.src || ''
+
+  return (
+    <i style={{ ...iconStyles }} className={cx('icon')}>
+      {iconSrc && <img src={iconSrc} alt='icon' />}
+    </i>
+  )
+}
+
+export default Icon
