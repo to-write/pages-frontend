@@ -16,7 +16,7 @@ const AsidePortal = ({ children }: AsidePortalProps) => {
 
   useMount(() => {
     setMount(true)
-    document && (asideRef.current = document.getElementById('layoutAside'))
+    document && (asideRef.current = document.getElementById('layout-aside'))
   })
 
   if (mount && asideRef.current) {
