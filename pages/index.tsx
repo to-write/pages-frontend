@@ -1,7 +1,5 @@
-import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import AsidePortal from '../shared/components/AsidePortal'
 import { useSessionStore } from '../shared/store'
 
 const HomePage = () => {
@@ -16,14 +14,7 @@ const HomePage = () => {
     }
   }, [logged, nickname, router])
 
-  return (
-    <div>
-      랜딩 페이지
-      <AsidePortal>
-        <aside>어사이드입니다</aside>
-      </AsidePortal>
-    </div>
-  )
+  return <div>랜딩 페이지</div>
 }
 
 HomePage.LayoutProps = {
