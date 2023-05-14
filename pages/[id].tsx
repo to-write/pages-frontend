@@ -5,6 +5,7 @@ import { useSessionStore } from '../shared/store'
 import { useEffect } from 'react'
 import { useReissueMutation } from '../shared/api'
 import { LoginResponse } from '../shared/types/api'
+import { AsidePortal } from '../shared/components'
 
 const MyPage = ({ id }: ServerSideProps<typeof getServerSideProps>) => {
   const { logged, nickname, accessToken, refreshToken } = useSessionStore()
@@ -58,6 +59,9 @@ const MyPage = ({ id }: ServerSideProps<typeof getServerSideProps>) => {
   return (
     <div>
       <h1 className='my-page__title'>{id} 페이지</h1>
+      <AsidePortal>
+        <div>어사이드입니다</div>
+      </AsidePortal>
     </div>
   )
 }
@@ -66,13 +70,13 @@ export default MyPage
 
 MyPage.LayoutProps = {
   metaTitle: `마이페이지`,
+  menuName: '마이페이지',
+  menuType: 'BACK',
+  aside: true,
 }
 
-export const getServerSideProps = async ({ query, res, req }: GetServerSidePropsContext) => {
+export const getServerSideProps = async ({ query }: GetServerSidePropsContext) => {
   const id = `${query.id}`
-
-  console.log('req test', req)
-  console.log('res test', res)
 
   return {
     props: { id },
