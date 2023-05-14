@@ -15,10 +15,7 @@ const LoginPage = () => {
       <div className='login-page__button-container'>
         <KakaoButton />
 
-        {/* <GoogleButton /> */}
-
-
-
+        <GoogleLoginButton type='login' />
       </div>
     </div>
   )
@@ -28,4 +25,6 @@ export default LoginPage
 
 LoginPage.LayoutProps = {
   metaTitle: '로그인',
+  menuName: '로그인',
+  menuType: 'BACK',
 }
