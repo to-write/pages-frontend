@@ -9,14 +9,15 @@ import { DefaultLayout } from '../shared/layout'
 import { Provider, Session, useCreateStore } from '../shared/store/session'
 import { sanitizeCookieString } from '../utils/cookie'
 import { axiosAPI } from '../shared/api-client'
+import { DefaultLayoutProps } from '../shared/types'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
     Layout: FunctionComponent
-    // FIXME: 추후 LayoutProps 정해지면 수정
-    LayoutProps: any
+    LayoutProps: DefaultLayoutProps
   }
   session?: Session
+  isMobile?: boolean
 }
 
 declare global {
@@ -25,10 +26,11 @@ declare global {
   }
 }
 
-const CustomApp = ({ Component, pageProps, session }: AppPropsWithLayout) => {
+const CustomApp = ({ Component, pageProps, session, isMobile }: AppPropsWithLayout) => {
   const createStore = useCreateStore(session)
-  const Layout = Component.Layout ?? DefaultLayout
-  const LayoutProps = Component.LayoutProps ?? {}
+
+  const Layout: FunctionComponent<DefaultLayoutProps> = Component.Layout ?? DefaultLayout
+  const LayoutProps: DefaultLayoutProps = Component.LayoutProps ?? {}
 
   const [queryClient] = useState(
     () =>
@@ -61,7 +63,7 @@ const CustomApp = ({ Component, pageProps, session }: AppPropsWithLayout) => {
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps?.dehydratedState}>
             <Provider createStore={createStore}>
-              <Layout {...LayoutProps}>
+              <Layout {...LayoutProps} isMobile={isMobile}>
                 <Component {...pageProps} />
               </Layout>
               <div id='root-modal' />
@@ -76,6 +78,10 @@ const CustomApp = ({ Component, pageProps, session }: AppPropsWithLayout) => {
 
 CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
   const { req, res } = ctx
+
+  const userAgent = req?.headers['user-agent']
+  const isMobile = userAgent?.includes('Mobile')
+
   let pageProps: Record<string, any> = {}
   let session: Partial<Session> = {}
   const cookie = sanitizeCookieString(req?.headers?.cookie || '')
@@ -96,7 +102,7 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
     if (!accessToken.token) {
       if (!refreshToken.token) {
         // accessToken,refreshToken 둘다 없을 경우 api 호출 X
-        return { ...pageProps, session }
+        return { ...pageProps, session, isMobile }
       }
       const reissueData = await axiosAPI
         .post('http://219.248.110.167:30800/reissue', {
@@ -126,7 +132,7 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
     console.log('error catched', e)
   }
 
-  return { ...pageProps, session }
+  return { ...pageProps, session, isMobile }
 }
 
 export default CustomApp
