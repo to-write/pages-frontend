@@ -8,9 +8,10 @@ const cx = classNames.bind(styles)
 export interface IconProps {
   size?: number
   iconName: IconName
+  className?: string
 }
 
-const Icon = ({ size = 18, iconName }: IconProps) => {
+const Icon = ({ size = 18, iconName, className }: IconProps) => {
   const iconStyles = {
     width: `${size}px`,
     height: `${size}px`,
@@ -19,7 +20,7 @@ const Icon = ({ size = 18, iconName }: IconProps) => {
   const iconSrc = ICON_NAME[iconName]?.src || ''
 
   return (
-    <i style={{ ...iconStyles }} className={cx('icon')}>
+    <i style={{ ...iconStyles }} className={cx('icon', className)}>
       {iconSrc && <img src={iconSrc} alt='icon' />}
     </i>
   )
