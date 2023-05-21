@@ -3,13 +3,14 @@
 
 .header {
   $self: #{&};
-
-  //TODO: 조율 필요
-  height: 50px;
-  padding: 10px 15px;
-  border-bottom: 1px solid gray;
-  display: flex;
-  align-items: center;
+  background-color: colors.$white;
+  border-bottom: 1px solid colors.$gray-200;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 52px;
+  padding: 12px 20px;
 
   @include responsive.after(1024px) {
     width: 860px;

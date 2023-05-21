@@ -27,10 +27,6 @@ const DefaultLayout = ({ children, aside = false }: DefaultLayoutProps) => {
         <Header />
         <main className='layout__main'>
           {children}
-          {/* <button type='button' onClick={() => console.log('test')}>
-            click me
-          </button>
-          <br /> */}
           <button type='button' onClick={tempOnClick}>
             click me
           </button>
