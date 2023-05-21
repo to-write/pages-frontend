@@ -8,8 +8,8 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { DefaultLayout } from '../shared/layout'
 import { Provider, Session, useCreateStore } from '../shared/store/session'
 import { sanitizeCookieString } from '../utils/cookie'
-import { axiosAPI } from '../shared/api-client'
 import { DefaultLayoutProps } from '../shared/types'
+import { checkToken, loginReissue } from '../shared/api'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
@@ -26,7 +26,7 @@ declare global {
   }
 }
 
-const CustomApp = ({ Component, pageProps, session, isMobile }: AppPropsWithLayout) => {
+const CustomApp = ({ Component, pageProps, session }: AppPropsWithLayout) => {
   const createStore = useCreateStore(session)
 
   const Layout: FunctionComponent<DefaultLayoutProps> = Component.Layout ?? DefaultLayout
@@ -63,7 +63,7 @@ const CustomApp = ({ Component, pageProps, session, isMobile }: AppPropsWithLayo
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps?.dehydratedState}>
             <Provider createStore={createStore}>
-              <Layout {...LayoutProps} isMobile={isMobile}>
+              <Layout {...LayoutProps} isMobile={session?.isMobile}>
                 <Component {...pageProps} />
               </Layout>
               <div id='root-modal' />
@@ -102,23 +102,18 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
     if (!accessToken.token) {
       if (!refreshToken.token) {
         // accessToken,refreshToken 둘다 없을 경우 api 호출 X
-        return { ...pageProps, session, isMobile }
+        return { ...pageProps, session: { ...session, isMobile } }
       }
-      const reissueData = await axiosAPI
-        .post('http://219.248.110.167:30800/reissue', {
-          refreshToken: refreshToken.token,
-        })
-        .catch((e) => console.log('login error catched', e))
-      accessToken = reissueData?.data?.access
-      refreshToken = reissueData?.data?.refresh
+      const data = await loginReissue({
+        refreshToken: refreshToken.token,
+      }).catch((e) => console.log('login error catched', e))
+
+      accessToken = data?.access || accessToken
+      refreshToken = data?.refresh || refreshToken
     }
+    const { access, nickname } = await checkToken({ type: 'access', token: accessToken.token })
 
-    // TODO: 에러 핸들링 해야할듯
-    const { data: accessData } = await axiosAPI.get(
-      `http://219.248.110.167:30800/check-token?token=${accessToken.token}&type=access`
-    )
-
-    accessToken = accessData?.access
+    accessToken = access
 
     session = {
       ...session,
@@ -126,13 +121,14 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
       accessExpire: accessToken?.expiresIn,
       refreshToken: refreshToken?.token,
       refreshExpire: refreshToken?.expiresIn,
-      nickname: accessData?.nickname,
+      nickname,
+      isMobile,
     }
   } catch (e) {
     console.log('error catched', e)
   }
 
-  return { ...pageProps, session, isMobile }
+  return { ...pageProps, session }
 }
 
 export default CustomApp

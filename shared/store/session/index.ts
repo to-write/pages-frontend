@@ -11,6 +11,7 @@ export interface Session {
   accessToken?: string
   accessExpire?: number
   refreshExpire?: number
+  isMobile?: boolean
 }
 
 export interface SessionStore extends Session {
