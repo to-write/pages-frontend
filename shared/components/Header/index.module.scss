@@ -7,12 +7,25 @@
   height: 50px;
   padding: 10px 15px;
   border-bottom: 1px solid gray;
+  display: flex;
+  align-items: center;
 
   @include responsive.after(1024px) {
     height: 80px;
 
     & {
       padding: 20px 60px;
+    }
+  }
+
+  :global {
+    #{$self}__desktop {
+    }
+
+    #{$self}__mobile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
   }
 }

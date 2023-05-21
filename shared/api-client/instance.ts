@@ -59,9 +59,8 @@ function getEnvPath(key: string): string {
   } else {
     envPath = key.replace('_PUBLIC', '')
   }
-  console.log(process.env[envPath])
 
-  return process.env[envPath] as string
+  return process.env.NEXT_PUBLIC_API_URL as string
 }
 
 export const axiosAPI = createAxios({ baseURL: getEnvPath('NEXT_PUBLIC_API_URL') })

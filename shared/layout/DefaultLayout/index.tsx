@@ -5,12 +5,18 @@ import { DefaultLayoutProps } from '../../types'
 
 const cx = classNames.bind(styles)
 
-const DefaultLayout = ({ children, aside = false }: DefaultLayoutProps) => {
+const DefaultLayout = ({
+  aside = false,
+  children,
+  menuType = 'BACK',
+  menuName,
+  isMobile = false,
+}: DefaultLayoutProps) => {
   return (
     <div className={cx('layout-container')}>
-      <Header />
+      <Header menuType={menuType} menuName={menuName} isMobile={isMobile} />
       <div className='layout-container__main-conatiner'>
-        {aside && <div id='layoutAside' className='layout-container__aisde' />}
+        {!isMobile && aside && <aside id='layout-aside' className='layout-container__aside' />}
         <main className='layout-container__main'>{children}</main>
       </div>
       <Footer />

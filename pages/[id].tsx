@@ -5,6 +5,7 @@ import { useSessionStore } from '../shared/store'
 import { useEffect } from 'react'
 import { useReissueMutation } from '../shared/api'
 import { LoginResponse } from '../shared/types/api'
+import { AsidePortal } from '../shared/components'
 
 const MyPage = ({ id }: ServerSideProps<typeof getServerSideProps>) => {
   const { logged, nickname, accessToken, refreshToken } = useSessionStore()
@@ -21,13 +22,13 @@ const MyPage = ({ id }: ServerSideProps<typeof getServerSideProps>) => {
   useEffect(() => {
     if (formmatError) {
       alert('에러')
-      // router.replace('/')
+      router.replace('/')
       return
     }
     if (isNotMine) {
       alert('유저 불일치')
+      router.replace('/')
       return
-      // router.replace('/')
     }
 
     if (!logged && !accessToken && !refreshToken) {
@@ -44,7 +45,7 @@ const MyPage = ({ id }: ServerSideProps<typeof getServerSideProps>) => {
         router.replace('/login')
       }
     }
-  }, [logged, id])
+  }, [logged, id, router])
 
   if (isNotMine || formmatError) {
     return <div>페이지를 찾을 수 없습니다.</div>
@@ -58,6 +59,9 @@ const MyPage = ({ id }: ServerSideProps<typeof getServerSideProps>) => {
   return (
     <div>
       <h1 className='my-page__title'>{id} 페이지</h1>
+      <AsidePortal>
+        <div>어사이드입니다</div>
+      </AsidePortal>
     </div>
   )
 }
@@ -66,6 +70,9 @@ export default MyPage
 
 MyPage.LayoutProps = {
   metaTitle: `마이페이지`,
+  menuName: '마이페이지',
+  menuType: 'BACK',
+  aside: true,
 }
 
 export const getServerSideProps = async ({ query }: GetServerSidePropsContext) => {

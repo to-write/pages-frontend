@@ -9,7 +9,13 @@ import { fetchUserFromKakao, useGetUserFromKakao } from '../shared/api/kakaoLogi
 
 const Kakao = ({ accessToken }: ServerSideProps<typeof getServerSideProps>) => {
   const router = useRouter()
-  const { data } = useGetUserFromKakao(accessToken)
+  const { data, isError } = useGetUserFromKakao(accessToken)
+
+  if (isError || !accessToken) {
+    // FIXME: 임시
+    alert('오류 발생!')
+    router.replace('/')
+  }
 
   const handleSuccess = ({ nickname }: LoginResponse) => {
     router.replace(`/@${nickname}`)
@@ -26,6 +32,7 @@ const Kakao = ({ accessToken }: ServerSideProps<typeof getServerSideProps>) => {
     loginMutate(loginParams)
   }, [])
 
+  // TODO: 로딩 컴포넌트로 변경해야함
   return <div>로그인 중..</div>
 }
 
@@ -38,6 +45,6 @@ export const getServerSideProps = async ({ query }: GetServerSidePropsContext) =
   const queryClient = fetchUserFromKakao(accessToken)
 
   return {
-    props: { dehydrateState: dehydrate(queryClient), code, accessToken },
+    props: { dehydrateState: dehydrate(queryClient), code, accessToken: accessToken || '' },
   }
 }

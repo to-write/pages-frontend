@@ -8,15 +8,16 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { DefaultLayout } from '../shared/layout'
 import { Provider, Session, useCreateStore } from '../shared/store/session'
 import { sanitizeCookieString } from '../utils/cookie'
-import { axiosAPI } from '../shared/api-client'
+import { DefaultLayoutProps } from '../shared/types'
+import { checkToken, loginReissue } from '../shared/api'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
     Layout: FunctionComponent
-    // FIXME: 추후 LayoutProps 정해지면 수정
-    LayoutProps: any
+    LayoutProps: DefaultLayoutProps
   }
   session?: Session
+  isMobile?: boolean
 }
 
 declare global {
@@ -27,8 +28,9 @@ declare global {
 
 const CustomApp = ({ Component, pageProps, session }: AppPropsWithLayout) => {
   const createStore = useCreateStore(session)
-  const Layout = Component.Layout ?? DefaultLayout
-  const LayoutProps = Component.LayoutProps ?? {}
+
+  const Layout: FunctionComponent<DefaultLayoutProps> = Component.Layout ?? DefaultLayout
+  const LayoutProps: DefaultLayoutProps = Component.LayoutProps ?? {}
 
   const [queryClient] = useState(
     () =>
@@ -61,7 +63,7 @@ const CustomApp = ({ Component, pageProps, session }: AppPropsWithLayout) => {
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps?.dehydratedState}>
             <Provider createStore={createStore}>
-              <Layout {...LayoutProps}>
+              <Layout {...LayoutProps} isMobile={session?.isMobile}>
                 <Component {...pageProps} />
               </Layout>
               <div id='root-modal' />
@@ -76,6 +78,10 @@ const CustomApp = ({ Component, pageProps, session }: AppPropsWithLayout) => {
 
 CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
   const { req, res } = ctx
+
+  const userAgent = req?.headers['user-agent']
+  const isMobile = userAgent?.includes('Mobile')
+
   let pageProps: Record<string, any> = {}
   let session: Partial<Session> = {}
   const cookie = sanitizeCookieString(req?.headers?.cookie || '')
@@ -91,25 +97,23 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
     //   pageViewData = { ...pageViewData, ...pageProps.pageViewData }
     // }
   }
-  // TODO: 여기서 session = api에서 받아온 정보로 세팅
 
   try {
     if (!accessToken.token) {
-      const reissueData = await axiosAPI
-        .post('http://219.248.110.167:30800/reissue', {
-          refreshToken: refreshToken.token,
-        })
-        .catch((e) => console.log('error catched'))
-      accessToken = reissueData?.data?.access
-      refreshToken = reissueData?.data?.refresh
+      if (!refreshToken.token) {
+        // accessToken,refreshToken 둘다 없을 경우 api 호출 X
+        return { ...pageProps, session: { ...session, isMobile } }
+      }
+      const data = await loginReissue({
+        refreshToken: refreshToken.token,
+      }).catch((e) => console.log('login error catched', e))
+
+      accessToken = data?.access || accessToken
+      refreshToken = data?.refresh || refreshToken
     }
+    const { access, nickname } = await checkToken({ type: 'access', token: accessToken.token })
 
-    // TODO: 에러 핸들링 해야할듯
-    const { data: accessData } = await axiosAPI.get(
-      `http://219.248.110.167:30800/check-token?token=${accessToken.token}&type=access`
-    )
-
-    accessToken = accessData?.access
+    accessToken = access
 
     session = {
       ...session,
@@ -117,7 +121,8 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
       accessExpire: accessToken?.expiresIn,
       refreshToken: refreshToken?.token,
       refreshExpire: refreshToken?.expiresIn,
-      nickname: accessData?.nickname,
+      nickname,
+      isMobile,
     }
   } catch (e) {
     console.log('error catched', e)

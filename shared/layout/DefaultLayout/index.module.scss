@@ -13,7 +13,6 @@
 
   :global {
     #{$self}__main-conatiner {
-      // flex-grow: 1;
       width: 100%;
       height: 100%;
       display: flex;
@@ -30,26 +29,28 @@
     #{$self}__main {
       overflow: scroll;
       overflow-x: hidden;
-
       display: flex;
       flex-direction: column;
       width: 100%;
       height: 100%;
 
-      @include responsive.after(1024px) {
-        & {
-          flex-grow: 6;
-        }
-      }
+      // @include responsive.after(1024px) {
+      //   & {
+      //     flex-grow: 6;
+      //   }
+      // }
     }
 
-    #{$self}__aisde {
+    #{$self}__aside {
       display: none;
+      min-width: 250px;
 
       @include responsive.after(1024px) {
         & {
           display: block;
-          flex-grow: 1;
+          // flex-grow: 1;
+          min-width: 250px;
+
           //   FIXME:임시
           background-color: antiquewhite;
         }
