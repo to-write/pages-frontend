@@ -1,0 +1,103 @@
+@use 'styles/constants/colors';
+@use 'styles/mixins/responsive';
+
+.profile-img {
+  $self: #{&};
+  display: flex;
+  border-radius: 50%;
+  border: 1px solid colors.$gray-200;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+
+  :global {
+    #{$self}__img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.regular {
+  width: 86px;
+  height: 86px;
+
+  @include responsive.after(1024px) {
+    & {
+      width: 130px;
+      height: 130px;
+    }
+  }
+}
+
+.small {
+  width: 48px;
+  height: 48px;
+  @include responsive.after(1024px) {
+    & {
+      width: 38px;
+      height: 38px;
+    }
+  }
+}
+
+.edit {
+  &:hover .profile-img__dimmed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .small-camera {
+      width: 16px;
+      height: 16px;
+
+      @include responsive.after(1024px) {
+        & {
+          width: 23px;
+          height: 23px;
+        }
+      }
+    }
+
+    .regular-camera {
+      width: 21px;
+      height: 21px;
+
+      @include responsive.after(1024px) {
+        & {
+          width: 37px;
+          height: 37px;
+        }
+      }
+    }
+
+    [class*='Icon_icon'] {
+      width: 100%;
+      height: 100%;
+    }
+    // &::after {
+    //   content: '';
+    //   display: flex;
+    //   justify-content: center;
+    //   align-items: center;
+    //   position: absolute;
+    //   top: 0;
+    //   right: 0;
+    //   left: 0;
+    //   bottom: 0;
+    //   background-color: rgba(244, 243, 238, 0.8);
+    //   padding: 30px;
+    //   background-image: url('../../../libs/assets/icons/camera.svg');
+    // }
+  }
+}
+
+.profile-img__dimmed {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(244, 243, 238, 0.8);
+}
