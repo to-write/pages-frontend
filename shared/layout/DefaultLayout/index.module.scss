@@ -10,7 +10,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #fcfbfa;
 
   @include responsive.after(1024px) {
     /* DESKTOP */
@@ -18,38 +17,26 @@
   }
 
   :global {
-    #{$self}__main-conatiner {
+    #{$self}__main-container {
       width: 100%;
       height: 100%;
-      @include responsive.after(1024px) {
-        width: 860px;
-      }
+      display: flex;
+      flex-direction: column;
     }
     #{$self}__main {
       overflow: scroll;
       overflow-x: hidden;
 
-      background-color: colors.$white;
-
+      display: flex;
+      flex-direction: column;
       width: 100%;
       height: 100%;
 
+      padding: 10px 12px;
+
       @include responsive.after(1024px) {
-        width: 860px;
+        padding: 20px 24px;
       }
     }
-
-    // #{$self}__aisde {
-    //   display: none;
-
-    //   @include responsive.after(1024px) {
-    //     & {
-    //       display: block;
-    //       flex-grow: 1;
-    //       //   FIXME:임시
-    //       background-color: antiquewhite;
-    //     }
-    //   }
-    // }
   }
 }
