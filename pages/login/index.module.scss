@@ -20,8 +20,6 @@
     }
   }
 
-  // TODO global에 사용 맞는 지 확인하기
-
   :global {
     #{$self}__button-container {
       display: flex;

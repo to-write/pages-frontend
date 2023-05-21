@@ -8,23 +8,21 @@ export type menuItem = { menuIcon: ReactNode | string; menuName: string; onClick
 
 export interface NavigationProps {
   children?: ReactNode
-  // onClick?: MouseEventHandler
   menuItems?: menuItem[]
 }
 
-const Navigation = ({ children, menuItems }: NavigationProps) => {
-  console.log('=====', menuItems)
+const Navigation = ({ children, menuItems = [] }: NavigationProps) => {
   return (
     <nav className={cx('navigation')}>
       <div className='navigation__menu-container'>
         <div className='navigation__logo'>LOGO</div>
         <ul className='navigation__menu'>
-          {menuItems?.map((item) => (
-            // FIXME eslint 설정
-            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-            <li className='navigation__menu-item' key={item.menuName} onClick={item.onClick}>
-              <span className='navigation__menu-icon'>{item.menuIcon}</span>
-              <span className='navigation__menu-name'>{item.menuName}</span>
+          {menuItems.map(({ menuIcon, menuName, onClick }) => (
+            <li className='navigation__menu-item' key={menuName}>
+              <button className='navigation__menu-item-contents' type='button' onClick={onClick}>
+                <span className='navigation__menu-icon'>{menuIcon}</span>
+                <span className='navigation__menu-name'>{menuName}</span>
+              </button>
             </li>
           ))}
         </ul>
