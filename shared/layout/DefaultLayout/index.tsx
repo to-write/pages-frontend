@@ -7,7 +7,13 @@ import Button from '../../components/Button'
 
 const cx = classNames.bind(styles)
 
-const DefaultLayout = ({ children, aside = false }: DefaultLayoutProps) => {
+const DefaultLayout = ({
+  aside = false,
+  children,
+  menuType = 'BACK',
+  menuName,
+  isMobile = false,
+}: DefaultLayoutProps) => {
   const tempOnClick = () => console.log('클릭')
 
   return (
@@ -24,7 +30,7 @@ const DefaultLayout = ({ children, aside = false }: DefaultLayoutProps) => {
         </Button>
       </Navigation>
       <div className='layout__main-container'>
-        <Header />
+        <Header menuType={menuType} menuName={menuName} isMobile={isMobile} />
         <main className='layout__main'>
           {children}
           <button type='button' onClick={tempOnClick}>
