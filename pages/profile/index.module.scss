@@ -1,0 +1,49 @@
+@use 'styles/mixins/responsive';
+@use 'styles/constants/colors';
+
+.profile {
+  $self: #{&};
+  background-color: yellow; // FIXME 임시
+
+  @include responsive.between(769px, 1023px) {
+    & {
+      // width: 450px;
+      padding: 24px;
+    }
+  }
+
+  @include responsive.after(1024px) {
+    & {
+      // width: 450px;
+      padding: 24px;
+    }
+  }
+
+  :global {
+    #{$self}__image-wrapper {
+      border: 1px solid black; // FIXME 임시
+      width: 812px;
+      height: 130px;
+    }
+
+    #{$self}__image-wrapper--editable {
+      border: 1px solid colors.$gray-300; // FIXME 임시
+    }
+
+    #{$self}__introduction-container {
+      border: 1px solid colors.$gray-300; // FIXME 임시
+    }
+
+    #{$self}__introduction-container--editable {
+      border: 1px solid colors.$gray-300; // FIXME 임시
+    }
+
+    #{$self}__name {
+      border: 1px solid colors.$gray-300; // FIXME 임시
+    }
+
+    #{$self}__introduction {
+      border: 1px solid colors.$gray-300; // FIXME 임시
+    }
+  }
+}

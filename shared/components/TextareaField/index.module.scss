@@ -1,0 +1,67 @@
+@use 'styles/mixins/responsive';
+@use 'styles/constants/colors';
+
+.label {
+  display: block;
+  color: colors.$gray-800;
+  font-size: 15px;
+}
+
+.textarea-wrapper {
+  text-align: right;
+  width: 355px;
+}
+
+.textarea {
+  $self: #{&};
+  resize: none;
+  width: 350px;
+  height: 144px;
+  border: 1px solid colors.$gray-200;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 8px;
+
+  &::placeholder {
+    color: colors.$gray-500;
+  }
+
+  &:focus {
+    border: 1px solid colors.$primary-500;
+  }
+
+  &:read-only {
+    background: colors.$gray-100;
+    border: 1px solid colors.$gray-400;
+    color: colors.$gray-500;
+    &::placeholder {
+      color: colors.$gray-500;
+    }
+  }
+}
+
+.error {
+  border: 1px solid colors.$negative-default;
+  &:focus {
+    border: 1px solid colors.$negative-default;
+  }
+}
+
+.filled {
+  border: 1px solid colors.$gray-500;
+}
+
+.counter {
+  // NOTE textarea 안쪽
+  // position: relative;
+  // bottom: 35px;
+
+  padding: 5px 10px;
+
+  .current-length {
+    color: colors.$gray-700;
+  }
+  .max-length {
+    color: colors.$gray-500;
+  }
+}
