@@ -24,7 +24,7 @@ interface TypographyProps {
     | 'body-14'
 
   weight?: 'bold' | 'semibold' | 'medium' | 'regular'
-  tag?: string // FIXME 임시
+  tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span' | 'div'
   children?: React.ReactNode
   color?: 'black' | 'primary' | 'secondary' | 'positive' | 'negative'
 }
