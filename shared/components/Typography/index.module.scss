@@ -1,24 +1,63 @@
 // types
 
-.display {
-  font-weight: 700;
+.display-50 {
+  font-size: 55px;
 }
-
-.display-22-semibold {
+.display-44 {
+  font-size: 44px;
+}
+.display-38 {
+  font-size: 38px;
+}
+.display-32 {
+  font-size: 32px;
+}
+.display-28 {
+  font-size: 28px;
+}
+.display-24 {
+  font-size: 24px;
+}
+.display-22 {
   font-size: 22px;
 }
 
-.body {
-  font-weight: 400;
+.heading-20 {
+  font-size: 20px;
+}
+.heading-18 {
+  font-size: 18px;
+}
+.heading-16 {
+  font-size: 16px;
+}
+.heading-15 {
+  font-size: 15px;
+}
+.heading-14 {
+  font-size: 14px;
+}
+.heading-13 {
+  font-size: 13px;
 }
 
-// font-weight
+.body-16 {
+  font-size: 16px;
+}
+.body-15 {
+  font-size: 15px;
+}
+.body-14 {
+  font-size: 14px;
+}
+
+// weight
 
 .bold {
   font-weight: 700;
 }
 
-.semibold {
+.semi-bold {
   font-weight: 600;
 }
 
@@ -28,4 +67,26 @@
 
 .regular {
   font-weight: 400;
+}
+
+// color
+
+.black {
+  color: #000;
+}
+
+.primary {
+  color: #000; // FIXME 임시
+}
+
+.secondary {
+  color: #000; // FIXME 임시
+}
+
+.positive {
+  color: #000; // FIXME 임시
+}
+
+.negative {
+  color: #000; // FIXME 임시
 }
