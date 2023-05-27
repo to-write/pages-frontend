@@ -1,6 +1,7 @@
-import React from 'react'
+import { memo, ReactNode } from 'react'
 import classNames from 'classnames/bind'
 import styles from './index.module.scss'
+import { TypographyTag } from '../../types'
 
 const cx = classNames.bind(styles)
 
@@ -24,14 +25,24 @@ interface TypographyProps {
     | 'body-14'
 
   weight?: 'bold' | 'semibold' | 'medium' | 'regular'
-  tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span' | 'div'
-  children?: React.ReactNode
+  tag?: TypographyTag
+  children: ReactNode
   color?: 'black' | 'primary' | 'secondary' | 'positive' | 'negative'
+  extendClass?: string
 }
 
-const Typography = ({ type, weight = 'regular', color = 'black', tag = 'p', children }: TypographyProps) => {
-  const Component = `${tag}` as keyof JSX.IntrinsicElements
-  return <Component className={cx(`${type} ${weight} ${color}`)}>{children}</Component>
+const Typography = ({
+  type,
+  weight = 'regular',
+  color = 'black',
+  tag = 'span',
+  children,
+  extendClass,
+}: TypographyProps) => {
+  const Component = tag
+  console.log('test', children)
+
+  return <Component className={cx(`${type} ${weight} ${color}`, extendClass)}>{children}</Component>
 }
 
-export default Typography
+export default memo(Typography)
