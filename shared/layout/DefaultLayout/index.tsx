@@ -25,18 +25,13 @@ const DefaultLayout = ({
           { menuIcon: 'iconC', menuName: 'nameC', onClick: tempOnClick },
         ]}
       >
-        <Button type='cta' size='large'>
+        <Button variant='cta' size='large'>
           icon 문장 쓰기
         </Button>
       </Navigation>
       <div className='layout__main-container'>
         <Header menuType={menuType} menuName={menuName} isMobile={isMobile} />
-        <main className='layout__main'>
-          {children}
-          <button type='button' onClick={tempOnClick}>
-            click me
-          </button>
-        </main>
+        <main className='layout__main'>{children}</main>
       </div>
       {/* <div className='layout__main-conatiner'>
         <Header />
