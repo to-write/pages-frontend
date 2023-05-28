@@ -29,6 +29,7 @@ const TextField = ({
   const textRef = useRef<HTMLTextAreaElement>(null)
 
   const handleChangeTextArea: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+    if (e.target.value.length > MAX_LENGTH) return
     setInputValue(e.target.value)
   }
 
@@ -54,17 +55,20 @@ const TextField = ({
           placeholder={placeholder}
         />
 
-        {isSubmit && (
-          <Button
-            extendClass='textfield__submit-btn'
-            size='medium'
-            variant='cta'
-            isDisabled={inputValue.trim() === ''}
-            onClick={handleSubmit}
-          >
-            <Typography type='display-22'>등록하기</Typography>
-          </Button>
-        )}
+        <div className='textfield__etc-container'>
+          <Typography type='display-22'>{`${inputValue.trim().length} / ${MAX_LENGTH}`}</Typography>
+          {isSubmit && (
+            <Button
+              extendClass='textfield__submit-btn'
+              size='medium'
+              variant='cta'
+              isDisabled={inputValue.trim() === ''}
+              onClick={handleSubmit}
+            >
+              <Typography type='display-22'>등록하기</Typography>
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   )
