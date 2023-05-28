@@ -1,5 +1,7 @@
 import classNames from 'classnames/bind'
 import { MouseEventHandler, ReactNode } from 'react'
+import { useSessionStore } from '../../store'
+import UserProfileImg from '../UserProfileImg'
 import styles from './index.module.scss'
 
 const cx = classNames.bind(styles)
@@ -12,6 +14,8 @@ export interface NavigationProps {
 }
 
 const Navigation = ({ children, menuItems = [] }: NavigationProps) => {
+  const { nickname, logged } = useSessionStore()
+
   return (
     <nav className={cx('navigation')}>
       <div className='navigation__menu-container'>
@@ -29,13 +33,17 @@ const Navigation = ({ children, menuItems = [] }: NavigationProps) => {
         <div className='navigation__btn-container'> {children} </div>
       </div>
 
-      <div className={cx('navigation-profile')}>
-        <div className='navigation-profile__container'>
-          <span className='navigation-profile__photo'> 사진자리 </span>
-          <span className='navigation-profile__name'>닉네임</span>
+      {logged && (
+        <div className={cx('navigation-profile')}>
+          <div className='navigation-profile__container'>
+            <div className='navigation-profile__photo'>
+              <UserProfileImg size='small' />
+            </div>
+            <span className='navigation-profile__name'>{nickname}</span>
+          </div>
+          <span className='navigation-profile__menu-btn'> ... </span>
         </div>
-        <span className='navigation-profile__menu-btn'> ... </span>
-      </div>
+      )}
     </nav>
   )
 }

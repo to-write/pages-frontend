@@ -142,10 +142,9 @@
     }
 
     #{$self}__photo {
-      display: inline-block;
+      display: flex;
       width: 40px;
       height: 40px;
-      border: 1px solid colors.$gray-300; // FIXME 임시
     }
 
     #{$self}__name {
