@@ -1,0 +1,21 @@
+.bookshelf-pc {
+  display: flex;
+  width: 100%;
+
+  $self: #{&};
+
+  :global {
+    #{$self}__contents {
+      width: 100%;
+      display: flex;
+      position: relative;
+    }
+
+    #{$self}__input {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+}
