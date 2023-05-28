@@ -21,9 +21,13 @@
 
   :global {
     #{$self}__desktop {
+      display: flex;
+      align-items: center;
     }
 
     #{$self}__mobile {
+      display: flex;
+      align-items: center;
       gap: 8px;
     }
   }
