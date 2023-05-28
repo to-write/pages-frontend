@@ -4,6 +4,7 @@ import { DefaultLayoutProps, MenuType } from '../../types'
 import Icon from '../Icon'
 import { useRouter } from 'next/router'
 import { MouseEvent } from 'react'
+import Typography from '../Typography'
 
 const cx = classNames.bind(styles)
 
@@ -26,7 +27,9 @@ const Header = ({ menuType, menuName, isMobile }: HeaderProps) => {
     <header className={cx('header-container')}>
       {!isMobile && (
         <div className='header-container__desktop'>
-          <span>desktop {menuName} 내용</span>
+          <Typography tag='span' type='display-22'>
+            {menuName}
+          </Typography>
         </div>
       )}
       {isMobile && (
@@ -36,7 +39,7 @@ const Header = ({ menuType, menuName, isMobile }: HeaderProps) => {
               <Icon iconName={menuType} size={24} />
             </button>
           )}
-          <span>{menuName}</span>
+          <Typography type='display-22'>{menuName}</Typography>
         </div>
       )}
     </header>
