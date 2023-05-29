@@ -1,6 +1,9 @@
 import classNames from 'classnames/bind'
 import { MouseEventHandler, ReactNode } from 'react'
+import { useLogout } from '../../hooks'
 import { useSessionStore } from '../../store'
+import Button from '../Button'
+import Icon from '../Icon'
 import UserProfileImg from '../UserProfileImg'
 import styles from './index.module.scss'
 
@@ -15,6 +18,7 @@ export interface NavigationProps {
 
 const Navigation = ({ children, menuItems = [] }: NavigationProps) => {
   const { nickname, logged } = useSessionStore()
+  const { logout } = useLogout()
 
   return (
     <nav className={cx('navigation')}>
@@ -31,6 +35,10 @@ const Navigation = ({ children, menuItems = [] }: NavigationProps) => {
           ))}
         </ul>
         <div className='navigation__btn-container'> {children} </div>
+        {/* FIXME: 로그아웃 기능 테스트용 임시 버튼 */}
+        <Button variant='cta' size='large' onClick={logout}>
+          로그아웃 임시 버튼
+        </Button>
       </div>
 
       {logged && (
@@ -41,7 +49,7 @@ const Navigation = ({ children, menuItems = [] }: NavigationProps) => {
             </div>
             <span className='navigation-profile__name'>{nickname}</span>
           </div>
-          <span className='navigation-profile__menu-btn'> ... </span>
+          <Icon iconName='KEBAB' />
         </div>
       )}
     </nav>
