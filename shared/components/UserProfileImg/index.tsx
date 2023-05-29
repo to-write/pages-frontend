@@ -45,12 +45,18 @@ const UserProfileImg = ({
   // TODO: 사진 업로드 모달 작업 필요함
 
   return (
-    <button type='button' className={cx('profile-img', size, className, editAble && 'edit')} onClick={handleEditClick}>
-      <div className={cx('profile-img__dimmed')}>
-        <Icon iconName='CAMERA' size={isMobile ? MOBILE_ICON_SIZE[size] : PC_ICON_SIZE[size]} />
-      </div>
-      <img className='profile-img__img' src={src || DEFAULT_SRC} alt={alt} />
-    </button>
+    <div className={cx('profile-img', size, className, editAble && 'edit')}>
+      {editAble ? (
+        <button type='button' onClick={handleEditClick}>
+          <div className={cx('profile-img__dimmed')}>
+            <Icon iconName='CAMERA' size={isMobile ? MOBILE_ICON_SIZE[size] : PC_ICON_SIZE[size]} />
+          </div>
+          <img className='profile-img__img' src={src || DEFAULT_SRC} alt={alt} />
+        </button>
+      ) : (
+        <img className='profile-img__img' src={src || DEFAULT_SRC} alt={alt} />
+      )}
+    </div>
   )
 }
 
