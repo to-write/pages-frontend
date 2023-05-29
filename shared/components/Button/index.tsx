@@ -6,7 +6,7 @@ const cx = classNames.bind(styles)
 
 interface ButtonProps {
   children: ReactNode
-  type: 'cta' | 'primary' | 'secondary'
+  variant: 'cta' | 'primary' | 'secondary'
   size: 'huge' | 'x-large' | 'large' | 'medium' | 'small' | 'x-small' | 'mini'
   isDisabled?: boolean
   isLoading?: boolean // TODO: 예정
@@ -14,9 +14,17 @@ interface ButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-const Button = ({ type, size, isLoading = false, isDisabled = false, children, extendClass, onClick }: ButtonProps) => {
+const Button = ({
+  variant,
+  size,
+  isLoading = false,
+  isDisabled = false,
+  children,
+  extendClass,
+  onClick,
+}: ButtonProps) => {
   return (
-    <button type='button' className={cx('button', type, size, extendClass)} disabled={isDisabled} onClick={onClick}>
+    <button type='button' className={cx('button', variant, size, extendClass)} disabled={isDisabled} onClick={onClick}>
       {/* {isLoading ? '로딩 스피너' : children} TODO: 예정 */}
       {children}
     </button>
