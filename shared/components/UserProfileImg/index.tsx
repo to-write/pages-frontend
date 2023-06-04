@@ -37,7 +37,6 @@ const UserProfileImg = ({
 
   const handleEditClick = () => {
     editAble && handleEdit?.()
-    !editAble && console.log('test')
   }
   // TODO: Default 이미지 디자인 요청
   const DEFAULT_SRC = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/road-sign-361514_960_720.png'

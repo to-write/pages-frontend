@@ -86,6 +86,8 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
   let session: Partial<Session> = {}
   const cookie = sanitizeCookieString(req?.headers?.cookie || '')
 
+  console.log('cookie', cookie, cookie.ACCESS_TOKEN_STORE, cookie.REFRESH_TOKEN_STORE)
+
   let accessToken = { token: cookie.ACCESS_TOKEN_STORE ?? '', expiresIn: 0 }
 
   let refreshToken = { token: cookie.REFRESH_TOKEN_STORE ?? '', expiresIn: 0 }

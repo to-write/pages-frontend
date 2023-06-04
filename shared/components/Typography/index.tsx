@@ -40,7 +40,6 @@ const Typography = ({
   extendClass,
 }: TypographyProps) => {
   const Component = tag
-  console.log('test', children)
 
   return <Component className={cx(`${type} ${weight} ${color}`, extendClass)}>{children}</Component>
 }
