@@ -58,10 +58,12 @@ export const useCreateStore = (session?: Session) => {
       session.accessExpire &&
         setCookie(ACCESS_TOKEN_STORE, session.accessToken, {
           expires: dayjs().add(session.accessExpire, 'millisecond').toDate(),
+          domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
         })
       session.refreshExpire &&
         setCookie(REFRESH_TOKEN_STORE, session.refreshToken, {
           expires: dayjs().add(session.refreshExpire, 'millisecond').toDate(),
+          domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
         })
     }
   })

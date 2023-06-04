@@ -10,9 +10,15 @@ export const setLoginCookie = ({ access, refresh }: Omit<LoginResponse, 'nicknam
 
   // accessToken 쿠키 세팅
   hasCookie(ACCESS_TOKEN_STORE) && deleteCookie(ACCESS_TOKEN_STORE)
-  setCookie(ACCESS_TOKEN_STORE, accessToken, { expires: dayjs().add(accessExpires, 'millisecond').toDate() })
+  setCookie(ACCESS_TOKEN_STORE, accessToken, {
+    expires: dayjs().add(accessExpires, 'millisecond').toDate(),
+    domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
+  })
 
   // refreshToken 쿠키 세팅
   hasCookie(REFRESH_TOKEN_STORE) && deleteCookie(REFRESH_TOKEN_STORE)
-  setCookie(REFRESH_TOKEN_STORE, refreshToken, { expires: dayjs().add(refreshExpires, 'millisecond').toDate() })
+  setCookie(REFRESH_TOKEN_STORE, refreshToken, {
+    expires: dayjs().add(refreshExpires, 'millisecond').toDate(),
+    domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
+  })
 }
