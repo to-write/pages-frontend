@@ -29,6 +29,8 @@ declare global {
 const CustomApp = ({ Component, pageProps, session }: AppPropsWithLayout) => {
   const createStore = useCreateStore(session)
 
+  console.log('session', session, session?.accessToken, session?.refreshToken)
+
   const Layout: FunctionComponent<DefaultLayoutProps> = Component.Layout ?? DefaultLayout
   const LayoutProps: DefaultLayoutProps = Component.LayoutProps ?? {}
 
@@ -85,8 +87,6 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
   let pageProps: Record<string, any> = {}
   let session: Partial<Session> = {}
   const cookie = sanitizeCookieString(req?.headers?.cookie || '')
-
-  console.log('cookie', cookie, cookie.ACCESS_TOKEN_STORE, cookie.REFRESH_TOKEN_STORE)
 
   let accessToken = { token: cookie.ACCESS_TOKEN_STORE ?? '', expiresIn: 0 }
 
