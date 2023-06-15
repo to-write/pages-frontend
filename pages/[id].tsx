@@ -10,6 +10,8 @@ import { AsidePortal } from '../shared/components'
 const MyPage = ({ id }: ServerSideProps<typeof getServerSideProps>) => {
   const { logged, nickname, accessToken, refreshToken } = useSessionStore()
 
+  console.log('useSessionStore', refreshToken, nickname)
+
   const isNotMine = id !== `@${nickname}` && nickname
   const formmatError = !id.includes('@')
 
