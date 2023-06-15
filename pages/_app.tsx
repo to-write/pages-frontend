@@ -92,8 +92,6 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
 
   let refreshToken = { token: cookie.REFRESH_TOKEN_STORE ?? '', expiresIn: 0 }
 
-  console.log('before api call', refreshToken)
-
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx)
 
@@ -106,8 +104,6 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
     if (!accessToken.token) {
       if (!refreshToken.token) {
         // accessToken,refreshToken 둘다 없을 경우 api 호출 X
-        console.log('doesnt exist', accessToken, refreshToken)
-
         return { ...pageProps, session: { ...session, isMobile } }
       }
       const data = await loginReissue({
@@ -116,11 +112,8 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
 
       accessToken = data?.access || accessToken
       refreshToken = data?.refresh || refreshToken
-
-      console.log('after reissue api call', refreshToken)
     }
     const { access, nickname } = await checkToken({ type: 'access', token: accessToken.token })
-    console.log('after checkToken api call', access, nickname)
 
     accessToken = access
 
