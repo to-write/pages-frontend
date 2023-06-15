@@ -10,6 +10,8 @@ import { Provider, Session, useCreateStore } from '../shared/store/session'
 import { sanitizeCookieString } from '../utils/cookie'
 import { DefaultLayoutProps } from '../shared/types'
 import { checkToken, loginReissue } from '../shared/api'
+import { getCookie } from 'cookies-next'
+import { REFRESH_TOKEN_STORE } from '../shared/constants'
 
 export type AppPropsWithLayout<P = Record<string, unknown>> = AppProps<P> & {
   Component: {
@@ -85,6 +87,9 @@ CustomApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
   let pageProps: Record<string, any> = {}
   let session: Partial<Session> = {}
   const cookie = sanitizeCookieString(req?.headers?.cookie || '')
+  console.log('sanitizeCookieString', cookie)
+  console.log('req cookie', req?.headers?.cookie)
+  console.log('test get Cookie', getCookie(REFRESH_TOKEN_STORE))
 
   let accessToken = { token: cookie.ACCESS_TOKEN_STORE ?? '', expiresIn: 0 }
 
