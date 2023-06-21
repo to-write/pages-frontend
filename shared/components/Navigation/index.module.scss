@@ -70,6 +70,10 @@
       display: flex;
     }
 
+    #{$self}__link {
+      width: 100%;
+    }
+
     #{$self}__menu-item-contents {
       width: 100%;
       height: 100%;
@@ -90,12 +94,6 @@
       &:hover {
         background-color: colors.$gray-200; // FIXME 임시
         cursor: pointer;
-      }
-    }
-
-    #{$self}__menu-icon {
-      @include responsive.after(1024px) {
-        padding-right: 20px;
       }
     }
 

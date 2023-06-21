@@ -9,6 +9,8 @@ import {
   User,
   Camera,
   Kebab,
+  Shelf,
+  BookMark,
 } from '../../../libs/assets/icons'
 import { IconName, IconRes } from '../../types'
 
@@ -23,6 +25,8 @@ export const ICON_NAME: Record<IconName, IconRes> = {
   HAMBURGER: Hamburger,
   CAMERA: Camera,
   KEBAB: Kebab,
+  SHELF: Shelf,
+  BOOKMARK: BookMark,
   // FIXME: 임시
   KAKAO: GoogleIcon,
 }

@@ -15,7 +15,7 @@ const BookshelfPage = () => {
 export default BookshelfPage
 
 BookshelfPage.LayoutProps = {
-  metaTitle: '로그인',
+  metaTitle: '내 책장',
   menuType: 'BACK',
   menuName: '내 책장',
 }
