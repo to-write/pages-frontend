@@ -14,15 +14,15 @@ const DefaultLayout = ({
   menuName,
   isMobile = false,
 }: DefaultLayoutProps) => {
-  const tempOnClick = () => console.log('클릭')
-
   return (
     <div className={cx('layout')}>
       <Navigation
+        // FIXME: routePath 임시 지정 상태.
         menuItems={[
-          { menuIcon: 'iconA', menuName: 'nameA', onClick: tempOnClick },
-          { menuIcon: 'iconB', menuName: 'nameB', onClick: tempOnClick },
-          { menuIcon: 'iconC', menuName: 'nameC', onClick: tempOnClick },
+          { menuIcon: 'HOME', menuName: '홈', routePath: '/' },
+          { menuIcon: 'SHELF', menuName: '책장', routePath: 'bookshelf' },
+          { menuIcon: 'USER', menuName: '프로필', routePath: 'profile' },
+          { menuIcon: 'BOOKMARK', menuName: '북마크', routePath: 'bookmark' },
         ]}
       >
         <Button variant='cta' size='large'>

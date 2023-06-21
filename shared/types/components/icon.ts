@@ -10,6 +10,8 @@ export type IconName =
   | 'HAMBURGER'
   | 'CAMERA'
   | 'KEBAB'
+  | 'SHELF'
+  | 'BOOKMARK'
 
 export interface IconRes {
   src?: string

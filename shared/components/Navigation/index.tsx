@@ -1,36 +1,56 @@
 import classNames from 'classnames/bind'
-import { MouseEventHandler, ReactNode } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { ReactNode } from 'react'
 import { useLogout } from '../../hooks'
 import { useSessionStore } from '../../store'
+import { IconName } from '../../types'
 import Button from '../Button'
 import Icon from '../Icon'
+import Typography from '../Typography'
 import UserProfileImg from '../UserProfileImg'
 import styles from './index.module.scss'
 
 const cx = classNames.bind(styles)
 
-export type menuItem = { menuIcon: ReactNode | string; menuName: string; onClick?: MouseEventHandler }
+export interface MenuItem {
+  menuIcon: IconName
+  menuName: string
+  routePath: string
+  onClick?: () => void
+}
 
 export interface NavigationProps {
   children?: ReactNode
-  menuItems?: menuItem[]
+  menuItems?: MenuItem[]
 }
 
 const Navigation = ({ children, menuItems = [] }: NavigationProps) => {
   const { nickname, logged } = useSessionStore()
   const { logout } = useLogout()
 
+  const router = useRouter()
+
+  console.log('router.asPath,', router.asPath, logged)
+
   return (
     <nav className={cx('navigation')}>
       <div className='navigation__menu-container'>
         <div className='navigation__logo'>LOGO</div>
         <ul className='navigation__menu'>
-          {menuItems.map(({ menuIcon, menuName, onClick }) => (
+          {menuItems.map(({ menuIcon, menuName, routePath, onClick }) => (
             <li className='navigation__menu-item' key={menuName}>
-              <button className='navigation__menu-item-contents' type='button' onClick={onClick}>
-                <span className='navigation__menu-icon'>{menuIcon}</span>
-                <span className='navigation__menu-name'>{menuName}</span>
-              </button>
+              <Link className='navigation__link' href={routePath}>
+                <button className='navigation__menu-item-contents' type='button' onClick={onClick}>
+                  <Icon iconName={menuIcon} />
+                  {/* <Typography type='body-15' extendClass='navigation__menu-icon'>
+                  {menuIcon}
+                </Typography> */}
+                  <Typography type='body-15' extendClass='navigation__menu-name'>
+                    {menuName}
+                  </Typography>
+                </button>
+              </Link>
             </li>
           ))}
         </ul>
