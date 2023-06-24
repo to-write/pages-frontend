@@ -31,7 +31,7 @@ const Navigation = ({ children, menuItems = [] }: NavigationProps) => {
 
   const router = useRouter()
 
-  console.log('router.asPath,', router.asPath, logged)
+  console.log('router.asPath,', router.basePath, logged)
 
   return (
     <nav className={cx('navigation')}>
