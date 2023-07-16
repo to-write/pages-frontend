@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# 실행할 프로그램 경로와 이름 설정
-EXECUTABLE="/path/to/your/executable"
+# 실행할 커멘드와 로그 파일 설정
+CMD="npm run start"
+LOG_FILE="twig-fe.log"
 
 # 실행 파일을 백그라운드로 실행하는 함수
 run_background() {
     # 실행 파일을 백그라운드에서 실행하고 프로세스 ID를 저장
-    "$EXECUTABLE" &
+    $CMD >> $LOG_FILE &
     PID=$!
 
     # 백그라운드에서 실행되고 있는지 확인
