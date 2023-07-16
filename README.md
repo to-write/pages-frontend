@@ -1,3 +1,6 @@
+## Commit Message Convention
+Keyword | Description
+---|---
 | Feat | 새로운 기능을 추가할 경우 |
 | Fix | 버그를 고친 경우 |
 | Design | CSS 등 사용자 UI 디자인 변경 |
@@ -12,3 +15,17 @@
 | Rename | 파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우 |
 | Remove | 파일을 삭제하는 작업만 수행한 경우 |
 | Modify | 단순한 변경,오타 수정 등 |
+
+## 개발 환경에서의 배포
+- 백그라운드로 서버를 실행할 때
+```
+./script.sh start
+```
+- 백그라운드로 실행되고 있는 서버를 종료할 때
+```
+# 서버의 PID를 알아옴
+ps -ef |grep npm
+
+# $PID에 서버의 PID를 대입
+./script.sh stop $PID
+```
